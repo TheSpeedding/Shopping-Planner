@@ -6,6 +6,9 @@
      * This script will call a script specified in $_POST['controller']. 
      * Results of the underlying scripts are "return_code" objects stored in $rc variable.
      */
+
+    // This is here for debug cases and should be removed in a release version.
+    if (!isset($_POST['controller'])) $_POST = $_GET;
     
     if (isset($_POST['controller'])) {
         $rc = NULL;

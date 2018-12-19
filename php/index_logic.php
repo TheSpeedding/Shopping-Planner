@@ -16,12 +16,12 @@
 
         if ($rc instanceof success_code) {
             if ($controller == "login") {
-                header("Location: main.php?session=" . session_id());
+                header("Location: main.php?session=" . $rc->payload['session']);
                 exit();
             }
 
             else if ($controller == "signup") {
-                header("Location: index.php?action=${controller}&type=success&message='". urlencode($rc->success) . "'"); 
+                header("Location: index.php?action=" . $controller . "&type=success&message='". urlencode($rc->getMessage()) . "'"); 
                 exit();
             }
 
@@ -31,7 +31,7 @@
         }
 
         else if ($rc instanceof error_code) {
-            header("Location: index.php?action=${controller}&type=error&message='". urlencode($rc->error) . "'");
+            header("Location: index.php?action=" . $controller . "&type=error&message='". urlencode($rc->getMessage()) . "'");
         }
 
         else {

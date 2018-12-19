@@ -2,7 +2,7 @@
     include_once(__DIR__ . '/controller.php');
 
     if (!isset($_POST['login']) || !isset($_POST['pw'])) {
-        $rc = new error_code("Missing POST parameters.");
+        $rc = new error_code("Missing parameters.");
     }
 
     else {
@@ -16,7 +16,7 @@
             $_SESSION['login'] = $result['login'];
             $_SESSION['name'] = $result['name'];
     
-            $rc = new success_code("You was successfully logged-in.", array('login' => $result['login'], 'name' => $result['name']));
+            $rc = new success_code("You was successfully logged-in.", array('login' => $login, 'pw' => $pw, 'session' => session_id()));
         } 
         catch (Exception $e) {
             $rc = new error_code(htmlspecialchars($e->getMessage()));

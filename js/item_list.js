@@ -8,9 +8,16 @@ function appendToDatalist(names, datalist) {
 
 document.addEventListener('DOMContentLoaded', function() {
     let datalist = document.getElementById("items");
+    
     if (datalist !== null) {
-        fetch("/php/controllers/fetch_items.php")
+        let formData = new FormData();
+        formData.append('controller', 'fetch_items');
+
+        fetch("/php/controllers/controller.php", {
+            method: 'POST',
+            body: formData
+        })
         .then(x => x.json())
-        .then(x => appendToDatalist(x, datalist));
+        .then(x => appendToDatalist(x["payload"], datalist));
     }
 });
