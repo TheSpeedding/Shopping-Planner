@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo');
+
+@media only screen and (max-width: 1600px) {
+    /* TO-DO */
+    * {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    body {
+        background-color: rgb(47, 166, 154);
+        color: rgb(55, 72, 59);
+        font-family: 'Arvo', serif;
+    }
+    
+    a {
+        color: inherit;
+        transition: ease 1s;
+        -webkit-transition: ease 1s;
+    }
+    
+    a:hover {
+        text-decoration: none;
+    }
+    
+    #content {
+        background-color: rgb(220, 220, 220);
+        position: relative;
+        top: 30px;
+        padding: 40px;
+        max-width: 1600px;
+        margin: auto;
+        border-radius: 20px;
+        position: relative;
+    }
+    
+    #header {
+        border-bottom: 1px solid;
+        -moz-border-image: -moz-linear-gradient(left,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        -webkit-border-image: -webkit-linear-gradient(left,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        border-image: linear-gradient(left,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        border-image-slice: 1;
+        padding-bottom: 30px;
+    }
+    
+    #logo > * {
+        vertical-align: middle;
+    }
+    
+    #logo {
+        font-size: 200%;
+    }
+    
+    #logo img {
+        width: 100px;
+        margin-right: 30px; 
+    }
+    
+    #info {
+        position: absolute;
+        padding: 40px;
+        top: 20px;
+        right: 0px;
+    }
+    
+    #main {
+        margin-top: 40px;
+    }
+    
+    #lists {
+        /* border: 1px solid rgb(55, 72, 59); */
+        /* border-radius: 15px; */
+        width: 250px;
+        float: left;
+    }
+    
+    #lists ul li a {
+        margin-left: 10px;
+    }
+    
+    #lists ul {    
+        list-style-position: inside;
+        list-style-image: url('../img/list-icon.png');
+    }
+    
+    #lists ul :last-child {
+        list-style-position: inside;
+        list-style-image: url('../img/add-icon.png');
+    }
+    
+    #lists ul li {
+        padding: 5px 0;
+    }
+    
+    #current {
+        /*border: 1px solid rgb(55, 72, 59);*/
+        /* border-radius: 15px; */    
+        border-left: 1px solid rgb(55, 72, 59); 
+        -moz-border-image: -moz-linear-gradient(top,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        -webkit-border-image: -webkit-linear-gradient(top,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        border-image: linear-gradient(top,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        border-image-slice: 1;
+        width: 1250px;
+        float: right;
+        padding: 10px 30px 10px 50px;
+    }
+    
+    #current table {
+        width: 90%;
+        margin: 30px auto;
+        border-collapse: collapse;
+        text-align: center;
+    }
+    
+    #current table, #current th, #current td {
+        border: 1px solid rgb(170, 170, 170);
+        padding: 12px;
+    }
+    
+    #current tr:nth-child(even) {
+        background-color: rgb(200, 200, 200);
+    }
+    
+    #item_col {
+        width: 50%;
+    }
+    
+    #amount_col {
+        width: 25%;
+    }
+    
+    #swap_col {
+        width: 5%;
+    }
+    
+    #actions_col {
+        width: 20%;
+    }
+    
+    #current table a {
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 7px 10px;
+        margin: 5px;
+        text-decoration: none;
+    }
+    
+    .yellow {    
+        background-image: linear-gradient(bottom, rgb(255, 193, 7) 0%, rgb(225, 173, 0) 100%);
+        background-image: -webkit-linear-gradient(bottom, rgb(255, 193, 7) 0%, rgb(225, 173, 0) 100%);
+        color: inherit;
+    }
+    
+    .yellow:hover {    
+        color: white;
+    }
+    
+    .red {
+        background-image: linear-gradient(bottom, rgb(220, 53, 69) 0%, rgb(170, 33, 59) 100%);
+        background-image: -webkit-linear-gradient(bottom, rgb(220, 53, 69) 0%, rgb(170, 33, 59) 100%);
+        color: white;
+    }
+    
+    .green {
+        background-image: linear-gradient(bottom, rgb(40, 167, 69) 0%, rgb(10, 137, 49) 100%);
+        background-image: -webkit-linear-gradient(bottom, rgb(40, 167, 69) 0%, rgb(10, 137, 49) 100%);
+        color: white;
+    }
+    
+    .blue {
+        background-image: linear-gradient(bottom, rgb(0, 123, 255) 0%, rgb(0, 103, 205) 100%);
+        background-image: -webkit-linear-gradient(bottom, rgb(0, 123, 255) 0%, rgb(0, 103, 205) 100%);
+        color: white;
+    }
+    
+    .swap {
+        position: relative;
+        top: 22px;
+    }
+    
+    .red:hover, .blue:hover, .green:hover {
+        color: inherit;
+    }
+    
+    #current input {
+        background-color: inherit;
+        width: 90%;
+    }
+    
+    #delete_list {
+        float: right;
+        cursor: pointer;
+        padding-left: 20px;
+        background: transparent url('../img/delete-icon.png') center left no-repeat;
+        margin-bottom: 15px;
+    }
+}
