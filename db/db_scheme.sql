@@ -1,16 +1,16 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
-DROP TABLE IF EXISTS `accounts`;
-DROP TABLE IF EXISTS `lists`;
 DROP TABLE IF EXISTS `list`;
 DROP TABLE IF EXISTS `items`;
+DROP TABLE IF EXISTS `lists`;
+DROP TABLE IF EXISTS `accounts`;
 
 --
 -- Table structure for table `items`
 --
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(10) unsigned NOT NULL COMMENT 'ID of the item that can appear on the list.',
-  `name` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT 'Name of the item.'
+  `name` varchar(191) COLLATE utf8mb4_bin NOT NULL COMMENT 'Name of the item.'
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='A lookup table of all items that an be added to a shopping list.';
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `list` (
 CREATE TABLE IF NOT EXISTS `lists` (
   `id` int(10) unsigned NOT NULL COMMENT 'ID of the list.',
   `account_id` int(10) unsigned NOT NULL COMMENT 'FK to the accounts table.',
-  `created` DATETIME NOT NULL DEFAULT(GETDATE()) COMMENT 'Timestamp when the list was created.'
+  `created` DATETIME NOT NULL DEFAULT NOW() COMMENT 'Timestamp when the list was created.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
@@ -52,9 +52,9 @@ CREATE TABLE IF NOT EXISTS `lists` (
 --
 CREATE TABLE IF NOT EXISTS `accounts` (
   `id` int(10) unsigned NOT NULL COMMENT 'ID of the account.',
-  `name` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT 'Fullname of the account owner.',
-  `login` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT 'Login of the account owner.',
-  `pw` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT 'Password of the account owner, hashed.',
+  `name` varchar(191) COLLATE utf8mb4_bin NOT NULL COMMENT 'Fullname of the account owner.',
+  `login` varchar(191) COLLATE utf8mb4_bin NOT NULL COMMENT 'Login of the account owner.',
+  `pw` varchar(191) COLLATE utf8mb4_bin NOT NULL COMMENT 'Password of the account owner, hashed.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
@@ -130,7 +130,7 @@ ALTER TABLE `list`
 -- Constraints for table `lists`
 --
 ALTER TABLE `lists`
-  ADD CONSTRAINT `account_fk` FOREIGN KEY (`item_id`) REFERENCES `accounts` (`id`);
+  ADD CONSTRAINT `account_fk` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`);
 
 --
 -- Procedures for dumped tables
@@ -139,8 +139,23 @@ ALTER TABLE `lists`
 --
 -- Procedure for deleting a list
 --
-CREATE PROCEDURE DeleteList (@ListID int(10) unsigned) AS
+CREATE PROCEDURE DeleteList (@ListID int)
+AS
 BEGIN
   DELETE FROM `list` WHERE list_id=@ListID;
   DELETE FROM `lists` WHERE id=@ListID;
+END;
+
+--
+-- Procedure for swaping two items
+--
+CREATE PROCEDURE SwapItems (@ID1 int, @ID2 int)
+AS
+BEGIN
+  DECLARE @Position1 int(11);
+  DECLARE @Position2 int(11);
+  SELECT @Position1 = `position` FROM `list` WHERE `id` = @ID1;
+  SELECT @Position2 = `position` FROM `list` WHERE `id` = @ID2;
+  UPDATE `list` SET `position` = @Position2 WHERE `id` = @ID1;
+  UPDATE `list` SET `position` = @Position1 WHERE `id` = @ID2;
 END;

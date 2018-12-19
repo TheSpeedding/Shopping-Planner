@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Arvo');
+@font-face {
+    font-family: 'Arvo';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Arvo'), url(Arvo.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
 
 @media only screen and (max-width: 1600px) {
     /* TO-DO */
@@ -8,40 +14,46 @@
 }
 
 @media only screen and (min-width: 1600px) {
+
     body {
         background-color: rgb(47, 166, 154);
         color: rgb(55, 72, 59);
+
         font-family: 'Arvo', serif;
     }
     
     a {
         color: inherit;
         transition: ease 1s;
-        -webkit-transition: ease 1s;
     }
     
+    input {
+        border-radius: 5px;
+        transition: ease 1s;
+    }
+
     a:hover {
         text-decoration: none;
     }
     
     #content {
         background-color: rgb(220, 220, 220);
+        
         position: relative;
         top: 30px;
-        padding: 40px;
         max-width: 1600px;
+
         margin: auto;
+        padding: 40px;
         border-radius: 20px;
-        position: relative;
     }
     
     #header {
-        border-bottom: 1px solid;
-        -moz-border-image: -moz-linear-gradient(left,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
-        -webkit-border-image: -webkit-linear-gradient(left,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
-        border-image: linear-gradient(left,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
-        border-image-slice: 1;
         padding-bottom: 30px;
+        border-bottom: 1px solid;
+
+        border-image: linear-gradient(to left,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        border-image-slice: 1;
     }
     
     #logo > * {
@@ -59,9 +71,10 @@
     
     #info {
         position: absolute;
-        padding: 40px;
         top: 20px;
         right: 0px;
+
+        padding: 40px;
     }
     
     #main {
@@ -69,8 +82,6 @@
     }
     
     #lists {
-        /* border: 1px solid rgb(55, 72, 59); */
-        /* border-radius: 15px; */
         width: 250px;
         float: left;
     }
@@ -94,23 +105,21 @@
     }
     
     #current {
-        /*border: 1px solid rgb(55, 72, 59);*/
-        /* border-radius: 15px; */    
-        border-left: 1px solid rgb(55, 72, 59); 
-        -moz-border-image: -moz-linear-gradient(top,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
-        -webkit-border-image: -webkit-linear-gradient(top,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
-        border-image: linear-gradient(top,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
-        border-image-slice: 1;
-        width: 1250px;
         float: right;
+        width: 1250px;
+
         padding: 10px 30px 10px 50px;
+        border-left: 1px solid rgb(55, 72, 59);
+
+        border-image: linear-gradient(to top,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        border-image-slice: 1;
     }
     
     #current table {
+        text-align: center;
         width: 90%;
         margin: 30px auto;
         border-collapse: collapse;
-        text-align: center;
     }
     
     #current table, #current th, #current td {
@@ -122,55 +131,48 @@
         background-color: rgb(200, 200, 200);
     }
     
-    #item_col {
+    #current th:nth-child(1) { /* Item description column. */
         width: 50%;
     }
     
-    #amount_col {
+    #current th:nth-child(2) { /* Amount column. */
         width: 25%;
     }
     
-    #swap_col {
+    #current th:nth-child(3) { /* Column for swap buttons. */
         width: 5%;
     }
     
-    #actions_col {
+    #current th:nth-child(4) { /* Column for action buttons. */
         width: 20%;
     }
     
     #current table a {
         cursor: pointer;
+        text-decoration: none;
+
         border-radius: 5px;
         padding: 7px 10px;
         margin: 5px;
-        text-decoration: none;
     }
     
     .yellow {    
-        background-image: linear-gradient(bottom, rgb(255, 193, 7) 0%, rgb(225, 173, 0) 100%);
-        background-image: -webkit-linear-gradient(bottom, rgb(255, 193, 7) 0%, rgb(225, 173, 0) 100%);
+        background-image: linear-gradient(to bottom, rgb(255, 193, 7) 0%, rgb(225, 173, 0) 100%);
         color: inherit;
     }
     
-    .yellow:hover {    
-        color: white;
-    }
-    
     .red {
-        background-image: linear-gradient(bottom, rgb(220, 53, 69) 0%, rgb(170, 33, 59) 100%);
-        background-image: -webkit-linear-gradient(bottom, rgb(220, 53, 69) 0%, rgb(170, 33, 59) 100%);
+        background-image: linear-gradient(to bottom, rgb(220, 53, 69) 0%, rgb(170, 33, 59) 100%);
         color: white;
     }
     
     .green {
-        background-image: linear-gradient(bottom, rgb(40, 167, 69) 0%, rgb(10, 137, 49) 100%);
-        background-image: -webkit-linear-gradient(bottom, rgb(40, 167, 69) 0%, rgb(10, 137, 49) 100%);
+        background-image: linear-gradient(to bottom, rgb(40, 167, 69) 0%, rgb(10, 137, 49) 100%);
         color: white;
     }
     
     .blue {
-        background-image: linear-gradient(bottom, rgb(0, 123, 255) 0%, rgb(0, 103, 205) 100%);
-        background-image: -webkit-linear-gradient(bottom, rgb(0, 123, 255) 0%, rgb(0, 103, 205) 100%);
+        background-image: linear-gradient(to bottom, rgb(0, 123, 255) 0%, rgb(0, 103, 205) 100%);
         color: white;
     }
     
@@ -183,16 +185,62 @@
         color: inherit;
     }
     
+    .yellow:hover {    
+        color: white;
+    }
+    
     #current input {
         background-color: inherit;
         width: 90%;
     }
     
     #delete_list {
-        float: right;
         cursor: pointer;
-        padding-left: 20px;
+        float: right;
         background: transparent url('../img/delete-icon.png') center left no-repeat;
+
+        padding-left: 20px;
         margin-bottom: 15px;
+    }
+
+    .spacer {
+        clear: both;
+    }
+
+    #login, #signup {  
+        width: 49%;
+        margin: auto;
+        text-align: center;
+    }
+
+    #login {
+        float: left;
+    }
+
+    #signup {
+        float: right;
+
+        border-left: 1px solid rgb(55, 72, 59); 
+        border-image: linear-gradient(to top,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        border-image-slice: 1;
+    }
+
+    #login table, #signup table {
+        margin: auto;
+        margin-top: 10px;
+    }
+
+    #login table td, #signup table td {
+        padding: 10px;
+    }
+
+    #login table input[type="submit"], #signup table input[type="submit"] {
+        padding: 10px 20px;
+        font-weight: bold;
+    }
+
+    .error {
+        color: rgb(220, 53, 69);
+        font-weight: bold;
     }
 }
