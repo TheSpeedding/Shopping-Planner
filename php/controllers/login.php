@@ -1,22 +1,24 @@
-<?
-    include_once('php/controllers/controller_base.php');
+<?php
+    include_once(__DIR__ . '/controller.php');
 
-    class controller extends controller_base {
-        private $login;
-        private $pw;
+    if (!isset($_POST['login']) || !isset($_POST['pw'])) {
+        $rc = new error_code("Missing POST parameters.");
+    }
 
-        function __construct($arr) {
-            $this->login = htmlspecialchars(array_shift($arr));
-            $this->pw = htmlspecialchars(array_shift($arr));
-        }
-
-        public function process() {       
+    else {
+        $login = htmlspecialchars($_POST['login']);
+        $pw = htmlspecialchars($_POST['pw']);
+        
+        try {
             $request = new mysqli_request();
-            $result = $request->log_in($this->login, $this->pw);            
-
+            $result = $request->log_in($login, $pw);  
+    
             $_SESSION['login'] = $result['login'];
             $_SESSION['name'] = $result['name'];
-
-            return "You was successfully logged-in.";
+    
+            $rc = new success_code("You was successfully logged-in.", array('login' => $result['login'], 'name' => $result['name']));
+        } 
+        catch (Exception $e) {
+            $rc = new error_code(htmlspecialchars($e->getMessage()));
         }
     }

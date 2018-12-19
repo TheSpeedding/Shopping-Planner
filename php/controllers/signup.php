@@ -1,20 +1,21 @@
-<?
-    include_once('php/controllers/controller_base.php');
+<?php
+    include_once(__DIR__ . '/controller.php');
 
-    class controller extends controller_base {
-        private $fullname;
-        private $login;
-        private $pw;
+    if (!isset($_POST['fullname']) || !isset($_POST['login']) || !isset($_POST['pw'])) {
+        $rc = new error_code("Missing POST parameters.");
+    }
 
-        function __construct($arr) {
-            $this->fullname = htmlspecialchars(array_shift($arr));
-            $this->login = htmlspecialchars(array_shift($arr));
-            $this->pw = htmlspecialchars(password_hash(array_shift($arr), PASSWORD_DEFAULT));
-        }
-
-        public function process() {       
+    else {
+        $fullname = htmlspecialchars($_POST['fullname']);
+        $login = htmlspecialchars($_POST['login']);
+        $pw = htmlspecialchars(password_hash($_POST['pw'], PASSWORD_DEFAULT));
+    
+        try {
             $request = new mysqli_request();
-            $result = $request->sign_up($this->fullname, $this->login, $this->pw);
-            return "You have been successfully signed-up.";
+            $result = $request->sign_up($fullname, $login, $pw);
+            $rc = new success_code("You was successfully signed-up.", array('fullname' => $result['fullname'], 'login' => $result['login'], 'name' => $result['name']));
+        }
+        catch (Exception $e) {
+            $rc = new error_code(htmlspecialchars($e->getMessage()));
         }
     }

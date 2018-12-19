@@ -1,5 +1,5 @@
 <?php
-    include('db/db_config.php');
+    include(__DIR__ . '/db_config.php');
 
     class mysqli_request {
         private $mysqli = NULL;
@@ -18,6 +18,9 @@
             $this->mysqli->close();
         }
 
+        /**
+         * Processes the query and returns the result.
+         */
         private function process_query($query) {
             if ($result = $this->mysqli->query($query)) {
                 return $result;
@@ -27,6 +30,9 @@
             }
         }
 
+        /**
+         * Sanitizes the string so it is ready to be inserted into the database.
+         */
         private function sanitize($item) {
             return $this->mysqli->escape_string($item);
         }
@@ -92,7 +98,7 @@
             $account_entry = $account->fetch_assoc();
 
             if ($account_entry == NULL) {
-                throw new Exception("Internal logic error. Account with given login not found.");
+                die("Internal logic error. Account with given login not found.");
             }
 
             $account_id = $account_entry['id'];

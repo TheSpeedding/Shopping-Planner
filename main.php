@@ -1,7 +1,7 @@
 <?php 
     if (isset($_GET['session'])) {
         session_id($_GET['session']);
-    }
+    } 
     session_start(); 
     include('php/main_logic.php');
 ?>
@@ -11,19 +11,7 @@
     <head>
         <?php include('templates/head_contents.php'); ?>
         <script src="js/item_list.js" type="text/javascript"></script>        
-        <script src="js/show_message.js" type="text/javascript"></script>           
-        <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-                let datalist = document.getElementById("items");
-                if (datalist !== null) {
-                    appendToDatalist(<?php 
-                                        include('php/controllers/fetch_items.php');
-                                        $c = new controller();
-                                        echo $c->process();
-                                    ?>, datalist);
-                }
-            });
-        </script>
+        <script src="js/show_message.js" type="text/javascript"></script>     
     </head>
     <body>
         <div id="content">   
