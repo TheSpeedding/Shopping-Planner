@@ -1,6 +1,5 @@
 <?php
-    session_start();
-    $logged = isset($_SESSION['name']);
+    $logged = isset($_SESSION['name']) && isset($_SESSION['login']);
 ?>
 
 <div id="header">
@@ -14,7 +13,7 @@
         <?php
             if ($logged) {
                 ?>
-                <a href="index.php">Log-out</a>
+                <a href= <?php echo "index.php?logout&session=" . session_id(); ?>>Log-out</a>
                 <?php
             }
             else {

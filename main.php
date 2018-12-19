@@ -1,22 +1,34 @@
+<?php 
+    if (isset($_GET['session'])) {
+        session_id($_GET['session']);
+    }
+    session_start(); 
+    include('php/main_logic.php');
+?>
+
 <!DOCTYPE HTML>
 <html>
     <head>
         <?php include('templates/head_contents.php'); ?>
-        <script src="js/item_list.js" type="text/javascript"></script>                
+        <script src="js/item_list.js" type="text/javascript"></script>        
+        <script src="js/show_message.js" type="text/javascript"></script>           
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
-                appendToDatalist(<?php 
-                                     include('php/fetch_items.php');
-                                     $c = new controller();
-                                     echo $c->process();
-                                 ?>, document.getElementById("items"));
+                let datalist = document.getElementById("items");
+                if (datalist !== null) {
+                    appendToDatalist(<?php 
+                                        include('php/controllers/fetch_items.php');
+                                        $c = new controller();
+                                        echo $c->process();
+                                    ?>, datalist);
+                }
             });
         </script>
     </head>
     <body>
         <div id="content">   
 
-            <?php include('templates/header_main.php'); ?>
+            <?php include('templates/header.php'); ?>
 
             <div id="main">
                 <div id="lists">

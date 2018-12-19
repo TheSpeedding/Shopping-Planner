@@ -44,7 +44,8 @@ CREATE TABLE IF NOT EXISTS `list` (
 CREATE TABLE IF NOT EXISTS `lists` (
   `id` int(10) unsigned NOT NULL COMMENT 'ID of the list.',
   `account_id` int(10) unsigned NOT NULL COMMENT 'FK to the accounts table.',
-  `created` DATETIME NOT NULL DEFAULT NOW() COMMENT 'Timestamp when the list was created.'
+  `created` DATETIME NOT NULL DEFAULT NOW() COMMENT 'Timestamp when the list was created.',
+  `name` varchar(191) COLLATE utf8mb4_bin NOT NULL COMMENT 'Name of the list.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --

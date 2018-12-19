@@ -1,6 +1,6 @@
 <?php
 
-    include('php/controller_base.php');
+    include_once('php/controllers/controller_base.php');
 
     class controller extends controller_base {
         public function process() {                
@@ -8,11 +8,7 @@
 
             try {                
                 $request = new mysqli_request();
-                $result = $request->fetch_items();
-
-                while ($row = $result->fetch_assoc()) {
-                    $names[] = $row['name'];
-                }
+                $names = $request->fetch_items();
             }
 
             catch (Exception $e) {

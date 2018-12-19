@@ -1,5 +1,5 @@
 <?
-    include('php/controller_base.php');
+    include_once('php/controllers/controller_base.php');
 
     class controller extends controller_base {
         private $fullname;
@@ -7,9 +7,9 @@
         private $pw;
 
         function __construct($arr) {
-            $this->fullname = array_shift($arr);
-            $this->login = array_shift($arr);
-            $this->pw = password_hash(array_shift($arr), PASSWORD_DEFAULT);
+            $this->fullname = htmlspecialchars(array_shift($arr));
+            $this->login = htmlspecialchars(array_shift($arr));
+            $this->pw = htmlspecialchars(password_hash(array_shift($arr), PASSWORD_DEFAULT));
         }
 
         public function process() {       

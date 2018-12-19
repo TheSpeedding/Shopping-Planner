@@ -6,8 +6,8 @@
         public abstract function process();
     }
 
-    if (isset($_GET['action'])) {
-        include('php/' . $_GET['action'] . '.php');
+    if (isset($_POST['controller'])) {
+        include('php/controllers/' . array_shift($_POST) . '.php');
         $c = new controller($_POST);
-        $c->process();
+        $rc = $c->process();
     }
