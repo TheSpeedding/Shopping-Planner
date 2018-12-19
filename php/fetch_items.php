@@ -17,11 +17,8 @@
 
             catch (Exception $e) {
                 // On caught exception, just do nothing. There will be no hints in the textbox, shit happens.
-                echo json_encode($names);
-                return false;
             }
 
-            echo json_encode($names);
-            return true;
+            return json_encode($names);
         }
     }

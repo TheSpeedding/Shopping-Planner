@@ -1,26 +1,53 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <link rel="stylesheet" href="./css/main.css" type="text/css">
-        <meta charset="UTF-8">
-        <meta name="description" content="A web application in which every user can create an unlimited amount of shopping lists.">
-        <meta name="keywords" content="Shopping,List,Planner">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Shopping Planner</title>
+        <?php include('templates/head_contents.php'); ?>
+        <script src="js/show_message.js" type="text/javascript"></script>        
+        <?php
+
+            if (isset($_POST['action'])) {
+
+                $action = array_shift($_POST);
+
+                include("php/${action}.php");
+
+                $c = new controller($_POST);
+
+                try {
+                    $rc = $c->process();
+                    ?> 
+                    <script type="text/javascript">                            
+                        document.addEventListener('DOMContentLoaded', function() {
+                            showSuccessMessage(<?php echo "'" . $action . "_message'" ?>, 
+                                                <?php 
+                                                    echo "'". $rc . "'";
+                                                ?>);
+                            });
+                    </script>
+                    <?php                        
+                }
+
+                catch (Exception $e) {
+                    ?> 
+                    <script type="text/javascript">                            
+                        document.addEventListener('DOMContentLoaded', function() {
+                            showErrorMessage(<?php echo "'" . $action . "_message'" ?>, 
+                                                <?php 
+                                                    echo "'". $e->getMessage() . "'";
+                                                ?>);
+                            });
+                    </script>
+                    <?php   
+                }
+
+            }
+
+        ?>
     </head>
     <body>
-        <div id="content">            
-            <div id="header">
-                <div id="logo">
-                    <img src="./img/logo.png" alt="Shopping Planner">
-                    SHOPPING PLANNER
-                </div> 
-                <div id="info">
-                    Date: 17.12.2018 22:50<br>
-                    User: Non-logged<br>
-                    <a href="index.html">Log-in</a>
-                </div>
-            </div>
+        <div id="content">  
+            
+            <?php include('templates/header_main.php'); ?>
 
             <div id="main">
                 <div id="login">
@@ -28,7 +55,8 @@
                     
                     <span class="error">Invalid username or password.</span>
 
-                    <form>
+                    <form action="index.php" method="POST">
+                        <input type="hidden" name="action" value="login">
                         <table>
                             <tr>
                                 <td>Username:</td>
@@ -43,20 +71,25 @@
                                     <input class="blue" type="submit" name="submit" value="Log-in">
                                 </td>
                             </tr>
-                        </table>                       
+                        </table>                   
                     </form>
                 </div>
+
                 <div id="signup">
                     <h2>In case you don't have an account yet, please sign-up.</h2>
-                    <form>
+
+                    <span id="signup_message"></span>
+
+                    <form action="index.php" method="POST">
+                        <input type="hidden" name="action" value="signup">
                         <table>
                             <tr>
                                 <td>Fullname:</td>
-                                <td><input type="text" name="fullname"></td>
+                                <td><input type="text" name="fullname" value="<?php if (isset($_POST['login'])) echo $_POST['fullname']; ?>"></td>
                             </tr>
                             <tr>
                                 <td>Username:</td>
-                                <td><input type="text" name="login"></td>
+                                <td><input type="text" name="login" value="<?php if (isset($_POST['login'])) echo $_POST['login']; ?>"></td>
                             </tr>
                             <tr>
                                 <td>Password:</td>

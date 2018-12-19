@@ -1,36 +1,22 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <link rel="stylesheet" href="css/main.css" type="text/css">
-        <meta charset="UTF-8">
-        <meta name="description" content="A web application in which every user can create an unlimited amount of shopping lists.">
-        <meta name="keywords" content="Shopping,List,Planner">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Shopping Planner</title>
+        <?php include('templates/head_contents.php'); ?>
         <script src="js/item_list.js" type="text/javascript"></script>                
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
                 appendToDatalist(<?php 
                                      include('php/fetch_items.php');
                                      $c = new controller();
-                                     $c->process();
+                                     echo $c->process();
                                  ?>, document.getElementById("items"));
             });
         </script>
     </head>
     <body>
-        <div id="content">            
-            <div id="header">
-                <div id="logo">
-                    <img src="./img/logo.png" alt="Shopping Planner">
-                    SHOPPING PLANNER
-                </div> 
-                <div id="info">
-                    Date: 17.12.2018 22:50<br>
-                    User: Lukáš Riedel<br>
-                    <a href="index.html">Log-out</a>
-                </div>
-            </div>
+        <div id="content">   
+
+            <?php include('templates/header_main.php'); ?>
 
             <div id="main">
                 <div id="lists">
