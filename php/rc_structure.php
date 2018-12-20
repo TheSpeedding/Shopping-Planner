@@ -17,7 +17,7 @@
         }
 
         public function getMessage() {
-            return $this->sucess;
+            return $this->success;
         }
     }
     

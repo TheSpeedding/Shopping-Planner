@@ -10,8 +10,12 @@
 <html>
     <head>
         <?php include('templates/head_contents.php'); ?>
-        <script src="js/item_list.js" type="text/javascript"></script>        
-        <script src="js/show_message.js" type="text/javascript"></script>     
+        <script type="text/javascript">
+            const url = "/~riedell/Server" // Delete this if moving to a regular hosting.
+        </script> 
+        <script src="js/show_message.js" type="text/javascript"></script>    
+        <script src="js/item_list.js" type="text/javascript"></script>   
+        <script src="js/create_new_list.js" type="text/javascript"></script>   
     </head>
     <body>
         <div id="content">   
@@ -21,11 +25,14 @@
             <div id="main">
                 <div id="lists">
                     <ul>
-                        <li><a href="#">First list</a></li>
-                        <li><a href="#">Second list</a></li>
-                        <li><a href="#">Third list</a></li>
-                        <li><a href="#">Create new list</a></li>
+                        <?php
+                            include(__DIR__ . '/php/lists_show.php');
+                        ?>
                     </ul>
+                    <ul>
+                        <li id="create_new_list"><a>Create new list</a></li>
+                    </ul>
+                    <span id="lists_message"></span>
                 </div>
     
                 <div id="current">

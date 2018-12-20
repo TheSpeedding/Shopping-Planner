@@ -24,7 +24,9 @@
     
     a {
         color: inherit;
+        cursor: pointer;
         transition: ease 1s;
+        text-decoration: underline;
     }
     
     input {
@@ -95,11 +97,11 @@
         list-style-image: url('../img/list-icon.png');
     }
     
-    #lists ul :last-child {
+    #create_new_list {
         list-style-position: inside;
         list-style-image: url('../img/add-icon.png');
     }
-    
+
     #lists ul li {
         padding: 5px 0;
     }
@@ -247,5 +249,10 @@
     .success {
         color: rgb(40, 167, 69);
         font-weight: bold;
+    }
+    
+    #lists_message, #signup_message, #login_message {        
+        transition: 2s ease;
+        opacity: 0;
     }
 }

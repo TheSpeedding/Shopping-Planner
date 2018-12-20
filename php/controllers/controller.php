@@ -7,6 +7,13 @@
      * Results of the underlying scripts are "return_code" objects stored in $rc variable.
      */
 
+    if (session_status() == PHP_SESSION_NONE) {
+        if (isset($_POST['session'])) {
+            session_id($_POST['session']);
+        } 
+        session_start();
+    }
+
     // This is here for debug cases and should be removed in a release version.
     if (!isset($_POST['controller'])) $_POST = $_GET;
     

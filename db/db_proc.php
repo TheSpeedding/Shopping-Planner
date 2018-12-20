@@ -38,21 +38,21 @@
         }
 
         /**
-         * Returns an array with item names.
+         * Fetches all the items and returns item entries as stored in the database.
          */
         public function fetch_items() {
-            $result = $this->process_query("SELECT `name` FROM `items`");
+            $result = $this->process_query("SELECT * FROM `items`");
             $items = array();
 
             while ($row = $result->fetch_assoc()) {
-                $items[] = $row['name'];
+                $items[] = $row;
             }
 
             return $items;
         }
 
         /**
-         * Returns true if succeeded.
+         * SIgns the user up and returns true if succeeded.
          */
         public function sign_up($fullname, $login, $pw) {
             $fullname = $this->sanitize($fullname);
@@ -107,8 +107,28 @@
 
             $lists = array();
             while ($row = $result->fetch_assoc()) {
-                $items[] = $row;
+                $lists[] = $row;
             }
+
             return $lists;
+        }
+
+        /**
+         * Creates a new list and returns true if succeeded.
+         */
+        public function create_new_list($name, $login) {
+            $name = $this->sanitize($name);
+            $login = $this->sanitize($login);
+
+            $account = $this->process_query("SELECT * FROM `accounts` WHERE `login`='${login}'");
+            $account_entry = $account->fetch_assoc();
+
+            if ($account_entry == NULL) {
+                die("Internal logic error. Account with given login not found.");
+            }
+
+            $account_id = $account_entry['id'];
+
+            return $this->process_query("INSERT INTO `lists` (`account_id`, `name`) VALUES ('${account_id}', '${name}')");
         }
     }
