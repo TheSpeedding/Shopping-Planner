@@ -1,18 +1,44 @@
 function processListAddition(content) {
     if ('success' in content) {
-        showMessage("lists_message", content['success'], "success");
+        showMessage("lists_message", content['success'], "success", true);
+
         // Add a new node to DOM.
         let list = document.getElementById("lists").getElementsByTagName("ul")[0];
         let newLi = document.createElement("li");
+
         let newA = document.createElement("a");
-        newA.setAttribute("href", "#");
+        newA.setAttribute("data-id", content['payload']['id']);
         newA.innerText = content['payload']['name'];
         newLi.appendChild(newA);
+
+        addOnClickEventToList(newLi);
         list.appendChild(newLi);
     }
     else if ('error' in content) {
-        showMessage("lists_message", content['error'], "error");
+        showMessage("lists_message", content['error'], "error", true);
     }
+}
+
+async function addListAsync(name, session) {
+    let formData = new FormData();
+    formData.append('controller', 'create_new_list');
+    formData.append('session', session);
+    formData.append('name', name);
+
+    await fetch(url + "/php/controllers/controller.php", {
+        method: 'POST',
+        body: formData
+    })
+    .then(x => {
+        if (!x.ok) {
+            throw Error();
+        }
+        return x.json();
+    })
+    .then(x => processListAddition(x))
+    .catch(function() {
+        showMessage("lists_message", "Unable to create a new list.", "error");
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -21,29 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
     button.addEventListener('click', function (event) {
         let name = prompt("Enter name for a new list:", "");
 
-        if (name !== null) {
-            let urlCurrent = new URL(window.location.href);
-            let session = urlCurrent.searchParams.get("session");
-
-            let formData = new FormData();
-            formData.append('controller', 'create_new_list');
-            formData.append('session', session);
-            formData.append('name', name);
-
-            fetch(url + "/php/controllers/controller.php", {
-                method: 'POST',
-                body: formData
-            })
-            .then(x => {
-                if (!x.ok) {
-                    throw Error();
-                }
-                return x.json();
-            })
-            .then(x => processListAddition(x))
-            .catch(function() {
-                console.log("Unable to create a new list.");
-            });
+        if (name !== null && name.trim()) {
+            addListAsync(name, getCookie("session"));
         }
     });
 });

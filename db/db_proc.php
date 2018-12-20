@@ -23,7 +23,12 @@
          */
         private function process_query($query) {
             if ($result = $this->mysqli->query($query)) {
-                return $result;
+                if ($result === TRUE) { // Insertion.
+                    return $this->mysqli->insert_id;
+                }
+                else {
+                    return $result;
+                }
             }
             else {
                 throw new Exception("Unable to process a query.");
@@ -51,8 +56,21 @@
             return $items;
         }
 
+        private function get_account_id($login) {
+            $login = $this->sanitize($login);
+
+            $account = $this->process_query("SELECT * FROM `accounts` WHERE `login`='${login}'");
+            $account_entry = $account->fetch_assoc();
+
+            if ($account_entry == NULL) {
+                die("Internal logic error. Account with given login not found.");
+            }
+
+            return $account_entry['id'];
+        }
+
         /**
-         * SIgns the user up and returns true if succeeded.
+         * SIgns the user up and returns ID of the account.
          */
         public function sign_up($fullname, $login, $pw) {
             $fullname = $this->sanitize($fullname);
@@ -92,16 +110,7 @@
          * Fetches all the lists for given user and returns lists entries as stored in the database.
          */
         public function fetch_lists($login) {
-            $login = $this->sanitize($login);
-
-            $account = $this->process_query("SELECT * FROM `accounts` WHERE `login`='${login}'");
-            $account_entry = $account->fetch_assoc();
-
-            if ($account_entry == NULL) {
-                die("Internal logic error. Account with given login not found.");
-            }
-
-            $account_id = $account_entry['id'];
+            $account_id = $this->get_account_id($login);
 
             $result = $this->process_query("SELECT * FROM `lists` WHERE `account_id`=${account_id}");
 
@@ -114,21 +123,38 @@
         }
 
         /**
-         * Creates a new list and returns true if succeeded.
+         * Creates a new list and returns ID of the list;
          */
         public function create_new_list($name, $login) {
-            $name = $this->sanitize($name);
-            $login = $this->sanitize($login);
-
-            $account = $this->process_query("SELECT * FROM `accounts` WHERE `login`='${login}'");
-            $account_entry = $account->fetch_assoc();
-
-            if ($account_entry == NULL) {
-                die("Internal logic error. Account with given login not found.");
-            }
-
-            $account_id = $account_entry['id'];
+            $account_id = $this->get_account_id($login);
 
             return $this->process_query("INSERT INTO `lists` (`account_id`, `name`) VALUES ('${account_id}', '${name}')");
+        }
+
+        /**
+         * Returns a list with given ID as stored in the database. Login is passed just to verify if it matches the list.
+         */
+        public function load_list($login, $id) {
+            $account_id = $this->get_account_id($login);
+
+            $list = $this->process_query("SELECT * FROM `lists` WHERE `id`=${id} AND `account_id`=${account_id}");
+            $list_result = $list->fetch_assoc();
+
+            if ($list_result == NULL) {
+                throw new Exception("Selected list is not associated with current login.");
+            }
+
+            $result = $this->process_query("SELECT * FROM `list` WHERE `list_id`=${id}");
+
+            $list_items = array();
+            while ($row = $result->fetch_assoc()) {
+                $list_items[] = $row;
+            }
+
+            return array(
+                "name" => $list_result['name'], 
+                "created" => $list_result['created'], 
+                "items" => $list_items
+            );
         }
     }

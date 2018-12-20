@@ -1,8 +1,8 @@
 <?php 
-    if (isset($_GET['session'])) {
-        session_id($_GET['session']);
-    } 
-    session_start(); 
+    if (isset($_COOKIE['session'])) {
+        session_id($_COOKIE['session']);
+    }
+    session_start();
     include('php/main_logic.php');
 ?>
 
@@ -10,12 +10,9 @@
 <html>
     <head>
         <?php include('templates/head_contents.php'); ?>
-        <script type="text/javascript">
-            const url = "/~riedell/Server" // Delete this if moving to a regular hosting.
-        </script> 
-        <script src="js/show_message.js" type="text/javascript"></script>    
         <script src="js/item_list.js" type="text/javascript"></script>   
         <script src="js/create_new_list.js" type="text/javascript"></script>   
+        <script src="js/load_list.js" type="text/javascript"></script>   
     </head>
     <body>
         <div id="content">   
@@ -26,7 +23,7 @@
                 <div id="lists">
                     <ul>
                         <?php
-                            include(__DIR__ . '/php/lists_show.php');
+                            include(__DIR__ . '/templates/lists_list.php');
                         ?>
                     </ul>
                     <ul>
@@ -36,6 +33,8 @@
                 </div>
     
                 <div id="current">
+                    <!--
+                    <span id="list_message"></span>
                     <h2>First list</h2>
 
                     <div id="created">
@@ -64,6 +63,7 @@
                     <div id="delete_list">
                         <a href="#">Delete list</a>
                     </div>
+                    -->
                 </div>
 
                 <div class="spacer"></div>

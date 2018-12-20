@@ -2,6 +2,7 @@
     if (isset($_GET['logout'])) {
         session_unset();
         session_destroy();
+        setcookie("session", '');
         header("Location: index.php");
         exit();
     }
@@ -16,7 +17,7 @@
 
         if ($rc instanceof success_code) {
             if ($controller == "login") {
-                header("Location: main.php?session=" . $rc->payload['session']);
+                header("Location: main.php");
                 exit();
             }
 

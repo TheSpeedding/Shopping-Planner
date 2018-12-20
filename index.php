@@ -1,6 +1,6 @@
 <?php
-    if (isset($_GET['session'])) {
-        session_id($_GET['session']);
+    if (isset($_COOKIE['session'])) {
+        session_id($_COOKIE['session']);
     }
     session_start();
     include('php/index_logic.php');
@@ -9,8 +9,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <?php include('templates/head_contents.php'); ?>
-        <script src="js/show_message.js" type="text/javascript"></script>   
+        <?php include('templates/head_contents.php'); ?> 
     </head>
     <body>
         <div id="content">  
@@ -28,11 +27,11 @@
                         <table>
                             <tr>
                                 <td>Username:</td>
-                                <td><input type="text" name="login"></td>
+                                <td><input type="text" name="login" required></td>
                             </tr>
                             <tr>
                                 <td>Password:</td>
-                                <td><input type="password" name="pw"></td>
+                                <td><input type="password" name="pw" required></td>
                             </tr>
                             <tr>
                                 <td colspan="2">

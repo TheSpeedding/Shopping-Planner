@@ -1,2 +1,4 @@
-# Shopping-Planner
-A web application in which every user can create an unlimited amount of shopping lists.
+# Shopping Planner
+The application supports registrations. So you have to sign-up if you want to create some shopping lists. There are some restrictions for registrations, which you will encounter in the form. If the registration was successfull or not, in both cases you will receive a message informing about the result. Same goes for log-in.
+If the log-in is successfull, you will be redirected to the main page. You will stay logged-in until you close your browser, or the server sessions expires. Log-in is implemented via sessions, session id is saved in cookies.
+In the main page, you can create an unlimited amount of shopping list. Each shopping list is unique. In a shopping list window, you can add items to it. You can use hints for items, which should be displayed under the textbox. When some items are added, you can edit them, delete them, swap them etc.
