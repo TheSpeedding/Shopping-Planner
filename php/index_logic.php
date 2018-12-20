@@ -3,6 +3,7 @@
         session_unset();
         session_destroy();
         setcookie("session", '');
+        setcookie("last_visited_list", '');
         header("Location: index.php");
         exit();
     }

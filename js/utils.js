@@ -14,9 +14,13 @@ function showMessage(id, message, className, fade = false) {
 }
 
 function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    return parts.length == 2 ? parts.pop().split(";").shift() : null;
+}
+
+function setCookie(name, value) {
+    document.cookie = name + "=" + value + ";";
 }
 
 function formatDate(date) {

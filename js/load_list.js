@@ -53,11 +53,17 @@ function addOnClickEventToList(item) {
     let listId = Number(link.getAttribute("data-id"));
 
     link.addEventListener('click', function(event) {
+        setCookie("last_visited_list", listId);
         loadListAsync(listId, getCookie("session"));
     });
 }
 
 document.addEventListener('DOMContentLoaded', function() {   
+    let lastVisitedListId = getCookie("last_visited_list");
+    if (lastVisitedListId !== null) {
+        loadListAsync(lastVisitedListId, getCookie("session"));
+    }
+
     let list = document.getElementById("lists");
     let items = list.getElementsByTagName("li");
 
