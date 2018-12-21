@@ -30,7 +30,7 @@ class Entry {
         currentRow.setAttribute("data-id", this.id);
 
         let itemEntry = document.createElement("td");
-        itemEntry.innerText = this.name;
+        itemEntry.innerHTML = this.name;
         currentRow.appendChild(itemEntry);
 
         let amountEntry = document.createElement("td");

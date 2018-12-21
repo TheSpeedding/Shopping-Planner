@@ -31,7 +31,10 @@
                     <span id="lists_message"></span>
                 </div>
     
-                <div id="current"></div>
+                <div id="current">
+                    <span id="list_message"></span>
+                    <div id="list"></div>
+                </div>
 
                 <div class="spacer"></div>
             </div>

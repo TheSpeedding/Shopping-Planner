@@ -8,6 +8,11 @@
         exit();
     }
 
+    else if (isset($_SESSION['login']) && isset($_SESSION['name'])) {
+        header("Location: main.php");
+        exit();
+    }
+
     else if (isset($_POST['controller'])) {
 
         $controller = $_POST['controller'];
@@ -34,6 +39,7 @@
 
         else if ($rc instanceof error_code) {
             header("Location: index.php?action=" . $controller . "&type=error&message='". urlencode($rc->getMessage()) . "'");
+            exit();
         }
 
         else {

@@ -16,7 +16,8 @@
             document.addEventListener('DOMContentLoaded', function() {
                 showMessage(<?php echo "'" . $_GET['action'] . "_message'" ?>, 
                             <?php echo $_GET['message']; ?>, 
-                            <?php echo "'" . $_GET['type'] . "'"; ?>);
+                            <?php echo "'" . $_GET['type'] . "'"; ?>,
+                            <?php echo isset($_GET['fade']); ?>);
                 });
         </script>
         <?php

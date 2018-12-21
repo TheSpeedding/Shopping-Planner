@@ -266,7 +266,7 @@
         font-weight: bold;
     }
     
-    #lists_message, #signup_message, #login_message {        
+    #lists_message, #list_message, #signup_message, #login_message {        
         transition: 2s ease;
         opacity: 0;
     }

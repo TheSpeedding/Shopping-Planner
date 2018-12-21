@@ -24,7 +24,7 @@
         private function process_query($query) {
             if ($result = $this->mysqli->query($query)) {
                 if ($result === TRUE) { // Insertion or deletion.
-                    return $this->mysqli->insert_id ? $this->mysqli->insert_id : TRUE; // If not insert_id set, then it's a deletion. Returns true on successfull deletion.
+                    return $this->mysqli->insert_id ? $this->mysqli->insert_id : TRUE; // If not insert_id set, then it's a deletion. Returns true on successful deletion.
                 }
                 else {
                     return $result;
@@ -42,20 +42,6 @@
             return $this->mysqli->escape_string($item);
         }
 
-        /**
-         * Fetches all the items and returns item entries as stored in the database.
-         */
-        public function fetch_items() {
-            $result = $this->process_query("SELECT * FROM `items`");
-            $items = array();
-
-            while ($row = $result->fetch_assoc()) {
-                $items[] = $row['name'];
-            }
-
-            return $items;
-        }
-
         private function get_account_id($login) {
             $login = $this->sanitize($login);
 
@@ -67,6 +53,20 @@
             }
 
             return $account_entry['id'];
+        }
+
+        /**
+         * Fetches all the items and returns item entries as stored in the database.
+         */
+        public function fetch_items() {
+            $result = $this->process_query("SELECT * FROM `items` ORDER BY `name` ASC");
+            $items = array();
+
+            while ($row = $result->fetch_assoc()) {
+                $items[] = $row['name'];
+            }
+
+            return $items;
         }
 
         /**
@@ -200,5 +200,46 @@
                 }         
 
             return array('id' => $id);
+        }
+
+        /**
+         * Adds an item into given list.
+         */
+        public function add_item($item_name, $amount, $list_id, $login) {
+            $account_id = $this->get_account_id($login);
+
+            $list = $this->process_query("SELECT * FROM `lists` WHERE `id`=${list_id} AND `account_id`=${account_id}");
+            $list_result = $list->fetch_assoc();
+
+            if ($list_result == NULL) {
+                throw new Exception("Selected list is not associated with current login.");
+            }
+
+            $item_name = $this->sanitize($item_name);
+            $position = $this->sanitize($position);
+            $amount = $this->sanitize($amount);
+
+            $item = $this->process_query("SELECT * FROM `items` WHERE `name`='${item_name}'");
+            $item_result = $item->fetch_assoc();
+            
+            $item_id = NULL;
+            if ($item_result == NULL) {
+                $item_id = $this->process_query("INSERT INTO `items` (`name`) VALUES ('${item_name}')");
+            }
+            else {
+                $item_id = $item_result['id'];
+            }
+
+            $assertion = $this->process_query("SELECT * FROM `list` WHERE `list_id`=${list_id} AND `item_id`=${item_id}");
+            $assertion_result = $assertion->fetch_assoc();
+            
+            if($assertion_result != NULL) {
+                throw new Exception("Item already in the list.");
+            }
+            
+            $position = $this->process_query("SELECT * FROM `list` WHERE `list_id`=${list_id} ORDER BY `position` DESC");
+            $position_result = (int)$position->fetch_assoc()['position'] + 1;
+
+            return $this->process_query("INSERT INTO `list` (`list_id`, `item_id`, `amount`, `position`) VALUES ('${list_id}', '${item_id}', '${amount}', '${position_result}')");
         }
     }

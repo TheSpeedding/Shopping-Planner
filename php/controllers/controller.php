@@ -8,13 +8,10 @@
      */
 
     if (session_status() == PHP_SESSION_NONE) {
-        if (isset($_COOKIE['session'])) {
-            session_id($_COOKIE['session']);
-        } 
-        session_start();
+        include_once(__DIR__ . '/../session_start.php');
     }
 
-    // This is here for debug cases and should be removed in a release version.
+    // This is here for debug purposes and should be removed in a release version.
     if (!isset($_POST['controller'])) $_POST = $_GET;
     
     if (isset($_POST['controller'])) {

@@ -1,7 +1,7 @@
 function appendToDatalist(items, datalist) {
     for (let i in items) {
         let option = document.createElement("option");
-        option.setAttribute("value", items[i]);
+        option.setAttribute("value", decodeEntities(items[i]));
         datalist.appendChild(option);
     }
 }

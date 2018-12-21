@@ -56,3 +56,9 @@ function formatDate(date) {
 
     return d.slice(0, 3).join('.') + ' ' + d.slice(3).join(':');
 }
+
+function decodeEntities(html) {
+	let txt = document.createElement('textarea');
+	txt.innerHTML = html;
+	return txt.value;
+};

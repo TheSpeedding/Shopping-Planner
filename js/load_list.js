@@ -1,10 +1,6 @@
 function processListLoad(content) {
-    let list = document.getElementById("current");
+    let list = document.getElementById("list");
     list.innerHTML = "";
-
-    let messageBox = document.createElement("span");
-    messageBox.id = "list_message";
-    list.appendChild(messageBox);
 
     if ('success' in content) {
         let payload = content['payload'];
@@ -56,7 +52,7 @@ function processListLoad(content) {
         let inputName = document.createElement("input");
         inputName.setAttribute("type", "text");
         inputName.setAttribute("list", "items");
-        inputName.setAttribute("name", "name");
+        inputName.setAttribute("name", "item");
         inputName.required = true;
         nameEntry.appendChild(inputName);
 
@@ -81,6 +77,13 @@ function processListLoad(content) {
         let buttonsEntry = document.createElement("td");
         buttonsEntry.setAttribute("colspan", "2");
         buttonsEntry.style.padding = "0 12px";
+        
+        let controller = document.createElement("input");
+        controller.setAttribute("type", "hidden");
+        controller.setAttribute("name", "controller");
+        controller.setAttribute("value", "add_item");
+        controller.classList.add("green");
+        buttonsEntry.appendChild(controller);
 
         let submitButton = document.createElement("input");
         submitButton.setAttribute("type", "submit");
@@ -111,6 +114,7 @@ function processListLoad(content) {
         list.appendChild(deleteWrapper);
     }
     else if ('error' in content) {
+        deleteCookie("last_visited_list");
         showMessage("list_message", content['error'], "error");
     }
 }
@@ -132,6 +136,7 @@ function loadList(id) {
     })
     .then(x => processListLoad(x))
     .catch(function() {
+        deleteCookie("last_visited_list");
         showMessage("list_message", "Unable to load a list.", "error");
     });
 }
