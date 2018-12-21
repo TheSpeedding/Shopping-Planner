@@ -8,8 +8,8 @@
      */
 
     if (session_status() == PHP_SESSION_NONE) {
-        if (isset($_POST['session'])) {
-            session_id($_POST['session']);
+        if (isset($_COOKIE['session'])) {
+            session_id($_COOKIE['session']);
         } 
         session_start();
     }

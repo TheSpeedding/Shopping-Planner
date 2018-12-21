@@ -8,7 +8,7 @@ function processListAddition(content) {
 
         let newA = document.createElement("a");
         newA.setAttribute("data-id", content['payload']['id']);
-        newA.innerText = content['payload']['name'];
+        newA.innerHTML = content['payload']['name'];
         newLi.appendChild(newA);
 
         addOnClickEventToList(newLi);
@@ -19,13 +19,12 @@ function processListAddition(content) {
     }
 }
 
-async function addListAsync(name, session) {
+function addList(name) {
     let formData = new FormData();
     formData.append('controller', 'create_new_list');
-    formData.append('session', session);
     formData.append('name', name);
 
-    await fetch(url + "/php/controllers/controller.php", {
+    fetch(url + "/php/controllers/controller.php", {
         method: 'POST',
         body: formData
     })
@@ -48,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let name = prompt("Enter name for a new list:", "");
 
         if (name !== null && name.trim()) {
-            addListAsync(name, getCookie("session"));
+            addList(name);
         }
     });
 });

@@ -1,17 +1,16 @@
 <?php 
-    if (isset($_COOKIE['session'])) {
-        session_id($_COOKIE['session']);
-    }
-    session_start();
-    include('php/main_logic.php');
+    include(__DIR__ . '/php/session_start.php');
+    include(__DIR__ . '/php/main_logic.php');
 ?>
 
 <!DOCTYPE HTML>
 <html>
     <head>
         <?php include('templates/head_contents.php'); ?>
-        <script src="js/item_list.js" type="text/javascript"></script>   
-        <script src="js/create_new_list.js" type="text/javascript"></script>   
+        <script src="js/list_entry.js" type="text/javascript"></script>  
+        <script src="js/create_new_list.js" type="text/javascript"></script> 
+        <script src="js/delete_list.js" type="text/javascript"></script> 
+        <script src="js/load_datalist.js" type="text/javascript"></script>     
         <script src="js/load_list.js" type="text/javascript"></script>   
     </head>
     <body>
@@ -23,7 +22,7 @@
                 <div id="lists">
                     <ul>
                         <?php
-                            include(__DIR__ . '/templates/lists_list.php');
+                            include(__DIR__ . '/templates/print_lists.php');
                         ?>
                     </ul>
                     <ul>
@@ -32,39 +31,7 @@
                     <span id="lists_message"></span>
                 </div>
     
-                <div id="current">
-                    <!--
-                    <span id="list_message"></span>
-                    <h2>First list</h2>
-
-                    <div id="created">
-                        Created: 17.12.2018 17:00
-                    </div>
-
-                    <table>
-                        <tr><th>Item</th><th>Amount</th><th></th><th></th></tr>
-
-                        <tr><td>Máslo</td><td>10</td><td><a href="#" class="blue swap">↑↓</a></td><td><a href="#" class="yellow">Edit</a><a href="#" class="red">Delete</a></td></tr>
-                        <tr><td>Rohlík</td><td>100</td><td><a href="#" class="blue swap">↑↓</a></td><td><a href="#" class="yellow">Edit</a><a href="#" class="red">Delete</a></td></tr>
-                        <tr><td>Tatra Tea</td><td>1000</td><td><a href="#" class="blue swap">↑↓</a></td><td><a href="#" class="yellow">Edit</a><a href="#" class="red">Delete</a></td></tr>
-                        <tr><td>Voda</td><td>1</td><td></td><td><a href="#" class="yellow">Edit</a><a href="#" class="red">Delete</a></td></tr>
-
-                        <tr>
-                            <td>
-                                <input list="items" type="text" name="name">
-                                <datalist id="items">
-                                </datalist>
-                            </td>
-                            <td><input type="number" name="amount"></td>     
-                            <td colspan="2"><a href="#" class="green">Add</a><a href="#" class="blue">Clear</a></td>                   
-                        </tr>
-                    </table>
-
-                    <div id="delete_list">
-                        <a href="#">Delete list</a>
-                    </div>
-                    -->
-                </div>
+                <div id="current"></div>
 
                 <div class="spacer"></div>
             </div>

@@ -1,9 +1,6 @@
 <?php
-    if (isset($_COOKIE['session'])) {
-        session_id($_COOKIE['session']);
-    }
-    session_start();
-    include('php/index_logic.php');
+    include(__DIR__ . '/php/session_start.php');
+    include(__DIR__ . '/php/index_logic.php');
 ?>
 
 <!DOCTYPE HTML>

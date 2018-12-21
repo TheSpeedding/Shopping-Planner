@@ -6,14 +6,14 @@
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
   }
 
-@media only screen and (max-width: 1600px) {
+@media only screen and (max-width: 1650px) {
     /* TO-DO */
     * {
         display: none;
     }
 }
 
-@media only screen and (min-width: 1600px) {
+@media only screen and (min-width: 1650px) {
 
     body {
         background-color: rgb(47, 166, 154);
@@ -150,13 +150,24 @@
         width: 20%;
     }
     
-    #current table a {
+    #current table a, #current table input[type="submit"], #current table input[type="reset"] {
         cursor: pointer;
         text-decoration: none;
+        outline: none;
+        border: none;
+        font: inherit;
 
         border-radius: 5px;
+    }
+
+    #current table a {
         padding: 7px 10px;
         margin: 5px;
+    }
+
+    #current table input[type="submit"], #current table input[type="reset"] {
+        padding: 7px 10px;
+        margin: 0 5px;
     }
     
     .yellow {    
@@ -194,6 +205,9 @@
     
     #current input {
         background-color: inherit;
+    }
+
+    #current input[type="text"], #current input[type="number"] {
         width: 90%;
     }
     

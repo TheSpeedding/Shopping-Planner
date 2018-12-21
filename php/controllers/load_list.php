@@ -15,7 +15,7 @@
 
         try {                
             $request = new mysqli_request();
-            $lists = $request->load_list($login, $id);    
+            $lists = $request->load_list($login, $id);             
             $rc = new success_code("List loaded successfully.", $lists);
         }
     

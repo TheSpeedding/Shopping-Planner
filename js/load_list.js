@@ -11,7 +11,7 @@ function processListLoad(content) {
 
         // Heading.
         let heading = document.createElement("h2");
-        heading.innerText = payload['name'];
+        heading.innerHTML = payload['name'];
         list.appendChild(heading);
 
         // Creation datetime.
@@ -20,19 +20,107 @@ function processListLoad(content) {
         createdText.id = "created";
         createdText.innerText = "Created: " + formatDate(createdDate);
         list.appendChild(createdText);
+
+        let form = document.createElement("form");
+        form.setAttribute("method", "POST");
+        form.setAttribute("action", "#");      
+
+        // Table itself.
+        let table = document.createElement("table");
+
+        let headingRow = document.createElement("tr");
+        let headers = [ document.createElement("th"), 
+                        document.createElement("th"), 
+                        document.createElement("th"), 
+                        document.createElement("th") ];   
+
+        headers[0].innerText = "Item";
+        headers[1].innerText = "Amount";
+        headers.forEach(x => headingRow.appendChild(x));
+        table.appendChild(headingRow);
+
+        // Existing items.
+        for (let i = 0; i < payload['items'].length; ++i) {
+            let item = payload['items'][i];
+
+            let entry = new Entry(item['id'], item['item'], item['amount'], i);
+
+            table.appendChild(entry.createTableRow(i != payload['items'].length - 1));
+        }
+
+        // Form to create a new entry.  
+        let lastRow = document.createElement("tr");
+
+        let nameEntry = document.createElement("td");
+
+        let inputName = document.createElement("input");
+        inputName.setAttribute("type", "text");
+        inputName.setAttribute("list", "items");
+        inputName.setAttribute("name", "name");
+        inputName.required = true;
+        nameEntry.appendChild(inputName);
+
+        let datalistItems = document.createElement("datalist");
+        datalistItems.id = "items";
+        fillDatalist(datalistItems);
+        nameEntry.appendChild(datalistItems);
+
+        lastRow.appendChild(nameEntry);
+        
+        let amountEntry = document.createElement("td");
+
+        let inputAmount = document.createElement("input");
+        inputAmount.setAttribute("type", "number");
+        inputAmount.setAttribute("min", "1");
+        inputAmount.setAttribute("name", "amount");
+        inputAmount.required = true;
+        amountEntry.appendChild(inputAmount);
+
+        lastRow.appendChild(amountEntry);
+
+        let buttonsEntry = document.createElement("td");
+        buttonsEntry.setAttribute("colspan", "2");
+        buttonsEntry.style.padding = "0 12px";
+
+        let submitButton = document.createElement("input");
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute("value", "Add");
+        submitButton.classList.add("green");
+        buttonsEntry.appendChild(submitButton);
+        
+        let clearButton = document.createElement("input");
+        clearButton.setAttribute("type", "reset");
+        clearButton.setAttribute("value", "Clear");
+        clearButton.classList.add("yellow");
+        buttonsEntry.appendChild(clearButton);
+
+        lastRow.appendChild(buttonsEntry);
+        table.appendChild(lastRow);
+        form.appendChild(table);
+
+        list.appendChild(form);
+
+        // Button to delete a list.
+        let deleteWrapper = document.createElement("div");
+        deleteWrapper.id = "delete_list";
+        let deleteLink = document.createElement("a");
+        deleteLink.innerText = "Delete list";
+        deleteLink.addEventListener('click', function(event) { deleteList(payload['id']); });
+
+        deleteWrapper.appendChild(deleteLink);
+        list.appendChild(deleteWrapper);
     }
     else if ('error' in content) {
         showMessage("list_message", content['error'], "error");
     }
 }
 
-async function loadListAsync(id, session) {
+function loadList(id) {
     let formData = new FormData();
     formData.append('controller', 'load_list');
-    formData.append('session', session);
     formData.append('id', id);
 
-    await fetch(url + "/php/controllers/controller.php", {
+    fetch(url + "/php/controllers/controller.php", {
         method: 'POST',
         body: formData
     })
@@ -54,14 +142,14 @@ function addOnClickEventToList(item) {
 
     link.addEventListener('click', function(event) {
         setCookie("last_visited_list", listId);
-        loadListAsync(listId, getCookie("session"));
+        loadList(listId);
     });
 }
 
 document.addEventListener('DOMContentLoaded', function() {   
     let lastVisitedListId = getCookie("last_visited_list");
     if (lastVisitedListId !== null) {
-        loadListAsync(lastVisitedListId, getCookie("session"));
+        loadList(lastVisitedListId);
     }
 
     let list = document.getElementById("lists");

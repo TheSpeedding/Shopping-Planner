@@ -23,6 +23,10 @@ function setCookie(name, value) {
     document.cookie = name + "=" + value + ";";
 }
 
+function deleteCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
 function formatDate(date) {
     let diff = new Date() - date; 
 
@@ -38,7 +42,7 @@ function formatDate(date) {
 
     let min = Math.floor(diff / 60000); 
     if (min < 60) {
-        return min + ' minutes ago';
+        return min == 1 ? "a minute ago" : min + ' minutes ago';
     }
 
     let d = new Date(date);

@@ -1,15 +1,12 @@
 function appendToDatalist(items, datalist) {
     for (let i in items) {
         let option = document.createElement("option");
-        option.setAttribute("value", items[i]["name"]);
-        option.setAttribute("data-id", items[i]["id"]);
+        option.setAttribute("value", items[i]);
         datalist.appendChild(option);
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    let datalist = document.getElementById("items");
-    
+function fillDatalist(datalist) {    
     if (datalist !== null) {
         let formData = new FormData();
         formData.append('controller', 'fetch_items');
@@ -29,4 +26,4 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("Unable to fetch items.");
         });
     }
-});
+}

@@ -23,8 +23,8 @@
          */
         private function process_query($query) {
             if ($result = $this->mysqli->query($query)) {
-                if ($result === TRUE) { // Insertion.
-                    return $this->mysqli->insert_id;
+                if ($result === TRUE) { // Insertion or deletion.
+                    return $this->mysqli->insert_id ? $this->mysqli->insert_id : TRUE; // If not insert_id set, then it's a deletion. Returns true on successfull deletion.
                 }
                 else {
                     return $result;
@@ -50,7 +50,7 @@
             $items = array();
 
             while ($row = $result->fetch_assoc()) {
-                $items[] = $row;
+                $items[] = $row['name'];
             }
 
             return $items;
@@ -144,17 +144,61 @@
                 throw new Exception("Selected list is not associated with current login.");
             }
 
-            $result = $this->process_query("SELECT * FROM `list` WHERE `list_id`=${id}");
+            $result = $this->process_query("SELECT * FROM `list` WHERE `list_id`=${id} ORDER BY `position` ASC");
 
             $list_items = array();
             while ($row = $result->fetch_assoc()) {
-                $list_items[] = $row;
+                $list_items[] = array(
+                    "id" => $row['id'],
+                    "item" => $this->get_item_name($row['item_id']),
+                    "amount" => $row['amount']
+                );
             }
 
             return array(
+                "id" => $list_result['id'],
                 "name" => $list_result['name'], 
                 "created" => $list_result['created'], 
                 "items" => $list_items
             );
+        }
+
+        /**
+         * Returns name for the item with given id.
+         */
+        public function get_item_name($id) {
+            $id = $this->sanitize($id);
+
+            $list = $this->process_query("SELECT * FROM `items` WHERE `id`=${id}");
+            $result = $list->fetch_assoc();
+
+            if ($result == NULL) {
+                die("Internal logic error. Item with given ID not found.");
+            }
+
+            return $result['name'];
+        }
+
+        /**
+         * Deletes a list with given ID.
+         */
+        public function delete_list($id, $login) {
+            $account_id = $this->get_account_id($login);
+
+            $list = $this->process_query("SELECT * FROM `lists` WHERE `id`=${id} AND `account_id`=${account_id}");
+            $list_result = $list->fetch_assoc();
+
+            if ($list_result == NULL) {
+                throw new Exception("Selected list is not associated with current login.");
+            }
+
+            if (!(
+                $this->process_query("DELETE FROM `list` WHERE `list_id`=${id}") && 
+                $this->process_query("DELETE FROM `lists` WHERE `id`=${id}")
+                )) {
+                    throw new Exception("Unable to delete a list.");
+                }         
+
+            return array('id' => $id);
         }
     }
