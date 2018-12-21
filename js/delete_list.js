@@ -1,10 +1,10 @@
 function processListDeletion(content) {
     if ('error' in content) {
-        throw Error();
+        throw new Error();
     }
     else if ('success' in content) {
         let id = content['payload']['id'];
-        document.getElementById("current").innerHTML = "";
+        document.getElementById("list").innerHTML = "";
 
         let listItems = document.getElementById("lists").firstElementChild.getElementsByTagName("li");
         for (let i = 0; i < listItems.length; ++i) {

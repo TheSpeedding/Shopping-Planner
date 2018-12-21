@@ -30,7 +30,7 @@ function addList(name) {
     })
     .then(x => {
         if (!x.ok) {
-            throw Error();
+            throw new Error();
         }
         return x.json();
     })

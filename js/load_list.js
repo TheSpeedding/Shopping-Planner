@@ -52,6 +52,7 @@ function processListLoad(content) {
 
         let nameEntry = document.createElement("td");
 
+        // Item name input.
         let inputName = document.createElement("input");
         inputName.setAttribute("type", "text");
         inputName.setAttribute("list", "items");
@@ -68,6 +69,7 @@ function processListLoad(content) {
         
         let amountEntry = document.createElement("td");
 
+        // Amount input.
         let inputAmount = document.createElement("input");
         inputAmount.setAttribute("type", "number");
         inputAmount.setAttribute("min", "1");
@@ -81,6 +83,7 @@ function processListLoad(content) {
         buttonsEntry.setAttribute("colspan", "2");
         buttonsEntry.style.padding = "0 12px";
         
+        // Hidden input for controller chosing.
         let controller = document.createElement("input");
         controller.setAttribute("type", "hidden");
         controller.setAttribute("name", "controller");
@@ -88,16 +91,26 @@ function processListLoad(content) {
         controller.classList.add("green");
         buttonsEntry.appendChild(controller);
 
+        // Add button.
         let submitButton = document.createElement("input");
         submitButton.setAttribute("type", "submit");
         submitButton.setAttribute("value", "Add");
         submitButton.classList.add("green");
         buttonsEntry.appendChild(submitButton);
         
+        // Clear button.
         let clearButton = document.createElement("input");
-        clearButton.setAttribute("type", "reset");
+        clearButton.setAttribute("type", "button");
         clearButton.setAttribute("value", "Clear");
         clearButton.classList.add("yellow");
+        clearButton.addEventListener('click', function(event) {
+            let inputs = lastRow.getElementsByTagName("input");
+            for (let i = 0; i < inputs.length; ++i) {
+                if (inputs[i].type != "button" && inputs[i].type != "submit") {
+                    inputs[i].value = "";
+                }
+            }
+        });
         buttonsEntry.appendChild(clearButton);
 
         lastRow.appendChild(buttonsEntry);
@@ -133,7 +146,7 @@ function loadList(id) {
     })
     .then(x => {
         if (!x.ok) {
-            throw Error();
+            throw new Error();
         }
         return x.json();
     })

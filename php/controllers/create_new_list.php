@@ -13,18 +13,16 @@
         $login = $_SESSION['login'];
         $name = htmlspecialchars($_POST['name']);    
         
-        if (empty($name)) {
-            throw new Exception("None of the values can be empty.");
+        try {
+            if (empty($name)) {
+                throw new Exception("None of the values can be empty.");
+            }
+            
+            $request = new mysqli_request();
+            $result = $request->create_new_list($name, $login);
+            $rc = new success_code("New list created successfully.", array('name' => $name, 'login' => $login, 'id' => $result));
         }
-
-        else {
-            try {
-                $request = new mysqli_request();
-                $result = $request->create_new_list($name, $login);
-                $rc = new success_code("New list created successfully.", array('name' => $name, 'login' => $login, 'id' => $result));
-            }
-            catch (Exception $e) {
-                $rc = new error_code(htmlspecialchars($e->getMessage()));
-            }
+        catch (Exception $e) {
+            $rc = new error_code(htmlspecialchars($e->getMessage()));
         }
     }

@@ -6,14 +6,14 @@
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
   }
 
-@media only screen and (max-width: 1650px) {
+@media only screen and (max-width: 1600px) {
     /* TO-DO */
     * {
         display: none;
     }
 }
 
-@media only screen and (min-width: 1650px) {
+@media only screen and (min-width: 1600px) {
 
     body {
         background-color: rgb(47, 166, 154);
@@ -135,7 +135,7 @@
     }
     
     #current th:nth-child(1) { /* Item description column. */
-        width: 50%;
+        width: 47%;
     }
     
     #current th:nth-child(2) { /* Amount column. */
@@ -143,14 +143,14 @@
     }
     
     #current th:nth-child(3) { /* Column for swap buttons. */
-        width: 5%;
+        width: 8%;
     }
     
     #current th:nth-child(4) { /* Column for action buttons. */
         width: 20%;
     }
     
-    #current table a, #current table input[type="submit"], #current table input[type="reset"] {
+    #current table a, #current table input[type="submit"], #current table input[type="button"] {
         cursor: pointer;
         text-decoration: none;
         outline: none;
@@ -165,7 +165,7 @@
         margin: 5px;
     }
 
-    #current table input[type="submit"], #current table input[type="reset"] {
+    #current table input[type="submit"], #current table input[type="button"] {
         padding: 7px 10px;
         margin: 0 5px;
     }
@@ -269,5 +269,9 @@
     #lists_message, #list_message, #signup_message, #login_message {        
         transition: 2s ease;
         opacity: 0;
+    }
+
+    .edit_item {
+        display: none;
     }
 }

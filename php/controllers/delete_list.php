@@ -13,18 +13,12 @@
         $login = $_SESSION['login'];
         $id = htmlspecialchars($_POST['id']);    
         
-        if (empty($id)) {
-            throw new Exception("None of the values can be empty.");
+        try {
+            $request = new mysqli_request();
+            $result = $request->delete_list($id, $login);
+            $rc = new success_code("List deleted successfully.", $result);
         }
-
-        else {
-            try {
-                $request = new mysqli_request();
-                $result = $request->delete_list($id, $login);
-                $rc = new success_code("List deleted successfully.", $result);
-            }
-            catch (Exception $e) {
-                $rc = new error_code(htmlspecialchars($e->getMessage()));
-            }
+        catch (Exception $e) {
+            $rc = new error_code(htmlspecialchars($e->getMessage()));
         }
     }

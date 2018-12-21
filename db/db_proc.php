@@ -261,4 +261,26 @@
 
             return array('id' => $id);
         }
+
+        /**
+         * Changes amount of the item in given list.
+         */
+        public function change_amount($id, $amount, $list_id, $login) {
+            $account_id = $this->get_account_id($login);
+
+            $list = $this->process_query("SELECT * FROM `lists` WHERE `id`=${list_id} AND `account_id`=${account_id}");
+            $list_result = $list->fetch_assoc();
+
+            if ($list_result == NULL) {
+                throw new Exception("Selected list is not associated with current login.");
+            }
+
+            $amount = $this->sanitize($amount);
+
+            if (!$this->process_query("UPDATE `list` SET `amount`=${amount} WHERE `id`=${id} AND `list_id`=${list_id}")) {
+                throw new Exception("Unable to update item.");
+            }         
+
+            return array('id' => $id);
+        }
     }
