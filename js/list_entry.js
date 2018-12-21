@@ -1,13 +1,44 @@
-var entries = [];
+class Entries {
+    constructor(id) {
+        this.entries = [];
+        this.length = 0;
+        this.listId = id;
+    }
+
+    add(x) {
+        this.entries.push(x);
+        this.length = this.entries.length;
+        this.preserveInvariant();
+    }
+
+    remove(index) {
+        this.entries.splice(index, 1);
+        this.length = this.entries.length;
+        this.preserveInvariant();
+    }
+
+    preserveInvariant() {
+        // Invariant: The last entry in the list has no swap button, others do.
+        for (let i = 0; i < this.entries.length - 1; ++i) {
+            if (this.entries[i].row !== null) {
+                this.entries[i].showSwapButtonElement();
+            }
+        }
+
+        this.entries[this.entries.length - 1].hideSwapButtonElement();
+    }
+}
 
 class Entry {
-    constructor(id, name, amount, positionInList) {
+    constructor(id, name, amount, parentList) {
         this.id = id;
         this.name = name;
         this.amount = amount;
-        this.positionInList = positionInList;
+        this.parentList = parentList;
+        this.index = this.parentList.length;
+        this.row = this.createTableRow();
 
-        entries.push(this);
+        this.parentList.add(this);
     }
 
     swapWithNext() {
@@ -16,16 +47,54 @@ class Entry {
     }
 
     deleteEntry() {
-
-
-        entries.splice(this.positionInList, 1);
+        let formData = new FormData();
+        formData.append('controller', 'remove_item');
+        formData.append('id', this.id);
+    
+        fetch(url + "/php/controllers/controller.php", {
+            method: 'POST',
+            body: formData
+        })
+        .then(x => {
+            if (!x.ok) {
+                throw Error();
+            }
+            return x.json();
+        })
+        .then(x =>  {
+            this.row.parentElement.removeChild(this.row);
+            this.parentList.remove(this.index);
+        })
+        .catch(function() {
+            showMessage("list_message", "Unable to remove item.", "error", true);
+        });
     }
 
     editAmount() {
 
     }
 
-    createTableRow(excludeSwapButton = false) {
+    getSwapButtonElement() {
+        return this.row === null ? null : this.row.getElementsByTagName("td")[2].firstElementChild;
+    }
+
+    hideSwapButtonElement() {
+        let b = this.getSwapButtonElement();
+        if (b !== null) {
+            b.style.display = "none"
+        }
+    }
+
+    showSwapButtonElement() {
+        let b = this.getSwapButtonElement();
+        if (b !== null) {
+            b.style.display = "initial"
+        }
+    }
+
+    createTableRow() {
+        let _this = this; // Otherwise a problem with passing 'this' object to an event handler.
+
         let currentRow = document.createElement("tr");
         currentRow.setAttribute("data-id", this.id);
 
@@ -38,16 +107,14 @@ class Entry {
         currentRow.appendChild(amountEntry);
 
         let swapEntry = document.createElement("td");
-        if (excludeSwapButton) {
-            let swapLink = document.createElement("a");
-            
-            swapLink.classList.add("button_table");
-            swapLink.classList.add("blue");
-            swapLink.classList.add("swap");
-            swapLink.innerText = "↑↓";
-            swapLink.addEventListener('click', function(event) { ; });
-            swapEntry.appendChild(swapLink);
-        }
+        let swapLink = document.createElement("a");
+        
+        swapLink.classList.add("button_table");
+        swapLink.classList.add("blue");
+        swapLink.classList.add("swap");
+        swapLink.innerText = "↑↓";
+        swapLink.addEventListener('click', function(event) { ; });
+        swapEntry.appendChild(swapLink);
         currentRow.appendChild(swapEntry);
 
         let actionsEntry = document.createElement("td");
@@ -61,7 +128,7 @@ class Entry {
         
         deleteLink.classList.add("red");
         deleteLink.innerText = "Delete";
-        deleteLink.addEventListener('click', function(event) { ; });
+        deleteLink.addEventListener('click', function(event) { _this.deleteEntry(); });
         actionsEntry.appendChild(deleteLink);
 
         currentRow.appendChild(actionsEntry);

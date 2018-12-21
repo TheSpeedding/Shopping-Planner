@@ -5,6 +5,9 @@ function processListLoad(content) {
     if ('success' in content) {
         let payload = content['payload'];
 
+        // This can be a local variable, since all the entries contain reference to this list. So it is inaccessible out of the scope.
+        let entries = new Entries(Number(payload['id']));
+
         // Heading.
         let heading = document.createElement("h2");
         heading.innerHTML = payload['name'];
@@ -39,9 +42,9 @@ function processListLoad(content) {
         for (let i = 0; i < payload['items'].length; ++i) {
             let item = payload['items'][i];
 
-            let entry = new Entry(item['id'], item['item'], item['amount'], i);
+            let entry = new Entry(item['id'], item['item'], item['amount'], entries);
 
-            table.appendChild(entry.createTableRow(i != payload['items'].length - 1));
+            table.appendChild(entry.row);
         }
 
         // Form to create a new entry.  

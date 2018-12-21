@@ -1,7 +1,7 @@
 function showMessage(id, message, className, fade = false) {
     let element = document.getElementById(id);
     if (element !== null) {
-        element.classList.add(className);
+        element.className = className;
         element.innerText = message;
         
         element.style.opacity = 1;
@@ -9,6 +9,10 @@ function showMessage(id, message, className, fade = false) {
             setTimeout(function() { 
                 element.style.opacity = 0;
             }, 5000);
+        }
+
+        if (window.location.href.indexOf("?") != -1) {
+            window.history.replaceState(null, null, window.location.pathname); // Remove the message from GET so it does not show again in case of reload.
         }
     }
 }

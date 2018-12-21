@@ -216,7 +216,6 @@
             }
 
             $item_name = $this->sanitize($item_name);
-            $position = $this->sanitize($position);
             $amount = $this->sanitize($amount);
 
             $item = $this->process_query("SELECT * FROM `items` WHERE `name`='${item_name}'");
@@ -241,5 +240,25 @@
             $position_result = (int)$position->fetch_assoc()['position'] + 1;
 
             return $this->process_query("INSERT INTO `list` (`list_id`, `item_id`, `amount`, `position`) VALUES ('${list_id}', '${item_id}', '${amount}', '${position_result}')");
+        }
+
+        /**
+         * Removes an item with given ID.
+         */
+        public function remove_item($id, $list_id, $login) {
+            $account_id = $this->get_account_id($login);
+
+            $list = $this->process_query("SELECT * FROM `lists` WHERE `id`=${list_id} AND `account_id`=${account_id}");
+            $list_result = $list->fetch_assoc();
+
+            if ($list_result == NULL) {
+                throw new Exception("Selected list is not associated with current login.");
+            }
+
+            if (!$this->process_query("DELETE FROM `list` WHERE `id`=${id} AND `list_id`=${list_id}")) {
+                throw new Exception("Unable to remove item.");
+            }         
+
+            return array('id' => $id);
         }
     }

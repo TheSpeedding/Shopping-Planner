@@ -13,12 +13,12 @@
         include(__DIR__ . "/controllers/controller.php"); // Executes the controller.
 
         if ($rc instanceof success_code) {
-            header("Location: main.php?action=list&type=success&message='". urlencode($rc->getMessage()) . "'"); 
-            exit();
+            // This block is reached when the addition to the list was successful. Do not show the message -> the user will see the item was added anyway.
+            header("Location: main.php"/*?action=list&type=success&message='". urlencode($rc->getMessage()) . "'&fade"*/); 
         }
 
         else if ($rc instanceof error_code) {
-            header("Location: main.php?action=list&type=error&message='". urlencode($rc->getMessage()) . "'");
+            header("Location: main.php?action=list&type=error&message='". urlencode($rc->getMessage()) . "'&fade");
             exit();
         }
 
