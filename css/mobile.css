@@ -1,0 +1,130 @@
+@media only screen and (max-width: 1600px) {
+
+    body {
+        background-color: rgb(220, 220, 220);
+        color: rgb(55, 72, 59);
+
+        font-family: 'Arvo', serif;
+    }
+    
+    a {
+        color: inherit;
+        cursor: pointer;
+        transition: ease 1s;
+        text-decoration: underline;
+    }
+    
+    input {
+        border-radius: 5px;
+        transition: ease 1s;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    #header {
+        text-align: center;
+        padding-bottom: 30px;
+        border-bottom: 1px solid;
+
+        border-image: linear-gradient(to left,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        border-image-slice: 1;
+    }    
+
+    #logo img {
+        display: none;
+    }
+
+    #logo {
+        font-size: 200%;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    #logo, #info, #header {
+        display: block;
+    }
+
+    #main {
+        margin-top: 20px;
+    }
+
+    #lists {
+        text-align: center;
+        border-bottom: 1px solid rgb(55, 72, 59);
+
+        border-image: linear-gradient(to left,  rgba(0,0,0,0) 1%, rgba(0,0,0,0.65) 24%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.65) 51%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0) 100%);
+        border-image-slice: 1;
+    }
+
+    #lists ul {
+        padding-inline-start: 0px;
+    }
+
+    #lists ul li {        
+        display: inline-block;
+        padding: 2px 5px;
+    }
+
+    #current {
+        text-align: center;
+    }
+
+    #created {
+        margin-bottom: 30px;
+    }
+
+    #current table {
+        text-align: center;
+        width: 90%;
+        margin: auto;
+        border-collapse: collapse;
+    }
+
+    #current table, #current th, #current td {
+        border: 1px solid rgb(170, 170, 170);
+        padding: 6px;
+    }
+
+    #current table tr {
+        line-height: 120%;
+    }
+
+    #current table a {
+        padding: 3px 5px;
+        margin: 2px;
+    }
+
+    #current table input[type="submit"], #current table input[type="button"] {
+        padding: 3px 5px;
+        margin: 3px 6px;
+    }
+
+    #lists_message, #list_message, #signup_message, #login_message {    
+        display: block;    
+        transition: 2s ease;
+        opacity: 0;
+        padding: 10px;
+    }
+
+    .edit_item {
+        display: none;
+    }
+    
+    #delete_list {
+        margin: 15px 0;
+    }    
+
+    #login, #signup {
+        text-align: center;
+    }
+
+    #login table, #signup table {
+        margin: 10px auto;
+    }
+
+    #login table tr, #signup table tr {
+        padding: 5px;
+    }
+}
