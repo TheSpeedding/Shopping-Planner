@@ -9,11 +9,11 @@
     </div> 
     <div id="info">
         Date: <?= date('d.m.Y H:i'); ?> <br>
-        User: <?php echo $logged ? $_SESSION['name'] : "Non-logged"; ?><br>
+        User: <?= $logged ? $_SESSION['name'] : "Non-logged"; ?><br>
         <?php
             if ($logged) {
                 ?>
-                <a href= <?php echo "index.php?logout&session=" . session_id(); ?>>Log-out</a>
+                <a href= <?= "index.php?logout&session=" . session_id(); ?>>Log-out</a>
                 <?php
             }
             else {

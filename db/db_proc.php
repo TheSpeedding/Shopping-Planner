@@ -283,4 +283,45 @@
 
             return array('id' => $id);
         }
+
+        /**
+         * Swaps two items with given IDs.
+         */
+        public function swap_items($id1, $id2, $list_id, $login) {
+            $account_id = $this->get_account_id($login);
+
+            $list = $this->process_query("SELECT * FROM `lists` WHERE `id`=${list_id} AND `account_id`=${account_id}");
+            $list_result = $list->fetch_assoc();
+
+            if ($list_result == NULL) {
+                throw new Exception("Selected list is not associated with current login.");
+            }
+
+            $position_id1 = $this->process_query("SELECT * FROM `list` WHERE `id`=${id1} AND `list_id`=${list_id}");
+            $position_id1_result = $position_id1->fetch_assoc();
+
+            if ($position_id1_result == NULL) {
+                throw new Exception("Unable to swap items.");
+            }
+
+            $position_id2 = $this->process_query("SELECT * FROM `list` WHERE `id`=${id2} AND `list_id`=${list_id}");
+            $position_id2_result = $position_id2->fetch_assoc();
+
+            if ($position_id2_result == NULL) {
+                throw new Exception("Unable to swap items.");
+            }
+
+            $position1 = $position_id1_result['position'];
+            $position2 = $position_id2_result['position'];
+            
+            if (!$this->process_query("UPDATE `list` SET `position`=${position2} WHERE `id`=${id1} AND `list_id`=${list_id}")) {
+                throw new Exception("Unable to update item.");
+            }    
+
+            if (!$this->process_query("UPDATE `list` SET `position`=${position1} WHERE `id`=${id2} AND `list_id`=${list_id}")) {
+                throw new Exception("Unable to update item.");
+            }            
+
+            return array('id1' => $id2, 'id2' => $id1);
+        }
     }

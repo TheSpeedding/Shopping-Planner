@@ -27,16 +27,7 @@ function deleteList(id) {
         formData.append('controller', 'delete_list');
         formData.append('id', id);
 
-        fetch(url + "/php/controllers/controller.php", {
-            method: 'POST',
-            body: formData
-        })
-        .then(x => {
-            if (!x.ok) {
-                throw Error();
-            }
-            return x.json();
-        })
+        sendControllerRequestAsync(formData)
         .then(x => processListDeletion(x))
         .catch(function() {
             showMessage("list_message", "Unable to delete a list.", "error");

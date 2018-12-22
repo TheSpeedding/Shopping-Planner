@@ -24,16 +24,7 @@ function addList(name) {
     formData.append('controller', 'create_new_list');
     formData.append('name', name);
 
-    fetch(url + "/php/controllers/controller.php", {
-        method: 'POST',
-        body: formData
-    })
-    .then(x => {
-        if (!x.ok) {
-            throw new Error();
-        }
-        return x.json();
-    })
+    sendControllerRequestAsync(formData)
     .then(x => processListAddition(x))
     .catch(function() {
         showMessage("lists_message", "Unable to create a new list.", "error");

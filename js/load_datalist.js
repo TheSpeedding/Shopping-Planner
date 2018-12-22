@@ -11,16 +11,7 @@ function fillDatalist(datalist) {
         let formData = new FormData();
         formData.append('controller', 'fetch_items');
 
-        fetch(url + "/php/controllers/controller.php", {
-            method: 'POST',
-            body: formData
-        })
-        .then(x => {
-            if (!x.ok) {
-                throw new Error();
-            }
-            return x.json();
-        })
+        sendControllerRequestAsync(formData)
         .then(x => appendToDatalist(x["payload"], datalist))
         .catch(function() {
             console.log("Unable to fetch items.");

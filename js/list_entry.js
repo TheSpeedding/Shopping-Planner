@@ -11,18 +11,35 @@ class Entries {
         this.preserveInvariant();
     }
 
-    remove(index) {
-        this.entries.splice(index, 1);
+    remove(item) {
+        item.row.parentElement.removeChild(item.row);
+        this.entries.splice(this.entries.indexOf(item), 1);
         this.length = this.entries.length;
+        this.preserveInvariant();
+    }
+
+    swapWithNext(fst) {
+        let fstIndex = this.entries.indexOf(fst);
+        let sndIndex = fstIndex + 1;
+        let snd = this.entries[sndIndex];
+
+        // Swap rows in table.
+        let table = fst.row.parentElement;
+        table.removeChild(snd.row);
+        table.insertBefore(snd.row, fst.row);
+
+        // Swap items in wrapper list.
+        let tmp = this.entries[fstIndex];
+        this.entries[fstIndex] = this.entries[sndIndex];
+        this.entries[sndIndex] = tmp;
+
         this.preserveInvariant();
     }
 
     preserveInvariant() {
         // Invariant: The last entry in the list has no swap button, others do.
         for (let i = 0; i < this.entries.length - 1; ++i) {
-            if (this.entries[i].row !== null) {
-                this.entries[i].showSwapButtonElement();
-            }
+            this.entries[i].showSwapButtonElement();
         }
 
         this.entries[this.entries.length - 1].hideSwapButtonElement();
@@ -35,15 +52,24 @@ class Entry {
         this.name = name;
         this.amount = amount;
         this.parentList = parentList;
-        this.index = this.parentList.length;
         this.row = this.createTableRow();
 
         this.parentList.add(this);
     }
 
     swapWithNext() {
-        let fstPos = this.positionInList;
-        let sndPos = this.positionInList + 1;
+        let formData = new FormData();
+        formData.append('controller', 'swap_items');
+        formData.append('id1', this.id);
+        formData.append('id2', this.row.nextElementSibling.getAttribute("data-id"));
+
+        sendControllerRequestAsync(formData)
+        .then(x =>  {
+            this.parentList.swapWithNext(this);
+        })
+        .catch(function() {
+            showMessage("list_message", "Unable to swap items.", "error", true);
+        });
     }
 
     deleteEntry() {
@@ -51,19 +77,9 @@ class Entry {
         formData.append('controller', 'remove_item');
         formData.append('id', this.id);
     
-        fetch(url + "/php/controllers/controller.php", {
-            method: 'POST',
-            body: formData
-        })
-        .then(x => {
-            if (!x.ok) {
-                throw Error();
-            }
-            return x.json();
-        })
+        sendControllerRequestAsync(formData)
         .then(x =>  {
-            this.row.parentElement.removeChild(this.row);
-            this.parentList.remove(this.index);
+            this.parentList.remove(this);
         })
         .catch(function() {
             showMessage("list_message", "Unable to remove item.", "error", true);
@@ -81,16 +97,7 @@ class Entry {
             formData.append('id', this.id);
             formData.append('amount', n);
 
-            fetch(url + "/php/controllers/controller.php", {
-                method: 'POST',
-                body: formData
-            })
-            .then(x => {
-                if (!x.ok) {
-                    throw new Error();
-                }
-                return x.json();
-            })
+            sendControllerRequestAsync(formData)
             .then(x => {
                 if ('error' in x) {
                     throw new Error();
@@ -205,7 +212,7 @@ class Entry {
         swapLink.classList.add("blue");
         swapLink.classList.add("swap");
         swapLink.innerText = "↑↓";
-        swapLink.addEventListener('click', function(event) { ; });
+        swapLink.addEventListener('click', function(event) { _this.swapWithNext(); });
         swapEntry.appendChild(swapLink);
 
         currentRow.appendChild(swapEntry);

@@ -1,3 +1,5 @@
+const url = "/~riedell/Server" // Change this if moving to another server. This serves for AJAX purposes to create an absolute URL.
+
 function showMessage(id, message, className, fade = false) {
     let element = document.getElementById(id);
     if (element !== null) {
@@ -66,3 +68,16 @@ function decodeEntities(html) {
 	txt.innerHTML = html;
 	return txt.value;
 };
+
+function sendControllerRequestAsync(formData) {
+    return fetch(url + "/php/controllers/controller.php", {
+        method: 'POST',
+        body: formData
+    })
+    .then(x => {
+        if (!x.ok) {
+            throw Error();
+        }
+        return x.json();
+    })
+}

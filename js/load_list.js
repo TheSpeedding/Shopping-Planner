@@ -140,16 +140,7 @@ function loadList(id) {
     formData.append('controller', 'load_list');
     formData.append('id', id);
 
-    fetch(url + "/php/controllers/controller.php", {
-        method: 'POST',
-        body: formData
-    })
-    .then(x => {
-        if (!x.ok) {
-            throw new Error();
-        }
-        return x.json();
-    })
+    sendControllerRequestAsync(formData)
     .then(x => processListLoad(x))
     .catch(function() {
         deleteCookie("last_visited_list");

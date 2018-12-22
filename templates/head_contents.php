@@ -4,10 +4,6 @@
 <meta name="keywords" content="Shopping,List,Planner">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shopping Planner</title>
-
-<script type="text/javascript">
-    const url = "/~riedell/Server" // Delete this if moving to a regular hosting.
-</script> 
 <script src="js/utils.js" type="text/javascript"></script>
 
 <?php
@@ -15,10 +11,10 @@
         ?>
         <script type="text/javascript">                            
             document.addEventListener('DOMContentLoaded', function() {
-                showMessage(<?php echo "'" . $_GET['action'] . "_message'" ?>, 
-                            <?php echo $_GET['message']; ?>, 
-                            <?php echo "'" . $_GET['type'] . "'"; ?>,
-                            <?php echo isset($_GET['fade']); ?>);
+                showMessage(<?= "'" . $_GET['action'] . "_message'" ?>, 
+                            <?= $_GET['message']; ?>, 
+                            <?= "'" . $_GET['type'] . "'"; ?>,
+                            <?= isset($_GET['fade']); ?>);
                 });
         </script>
         <?php
