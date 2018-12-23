@@ -13,7 +13,7 @@
         <?php
             if ($logged) {
                 ?>
-                <a href= <?= "index.php?logout&session=" . session_id(); ?>>Log-out</a>
+                <a href= <?= "index.php?logout" ?>>Log-out</a>
                 <?php
             }
             else {
