@@ -16,7 +16,7 @@
         $amount = htmlspecialchars($_POST['amount']);          
 
         try {
-            if (empty($amount)) {
+            if (empty($id) || empty($amount)) {
                 throw new Exception("None of the values can be empty.");
             }
 
