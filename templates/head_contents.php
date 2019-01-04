@@ -7,6 +7,8 @@
 <script src="js/utils.js" type="text/javascript"></script>
 
 <?php
+    $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+    
     if (isset($_GET['action']) && isset($_GET['type']) && isset($_GET['message'])) {
         ?>
         <script type="text/javascript">                            

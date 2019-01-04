@@ -314,13 +314,21 @@
             $position1 = $position_id1_result['position'];
             $position2 = $position_id2_result['position'];
             
+            $this->mysqli->autocommit(FALSE);
+
             if (!$this->process_query("UPDATE `list` SET `position`=${position2} WHERE `id`=${id1} AND `list_id`=${list_id}")) {
+                $this->mysqli->rollback();
                 throw new Exception("Unable to update item.");
             }    
 
             if (!$this->process_query("UPDATE `list` SET `position`=${position1} WHERE `id`=${id2} AND `list_id`=${list_id}")) {
+                $this->mysqli->rollback();
                 throw new Exception("Unable to update item.");
             }            
+            
+            if (!$this->mysqli->commit()) {
+                throw new Exception("Unable to swap items.");
+            }     
 
             return array('id1' => $id2, 'id2' => $id1);
         }

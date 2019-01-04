@@ -28,7 +28,7 @@
             }
 
             else if ($controller == "signup") {
-                header("Location: index.php?action=" . $controller . "&type=success&message='". urlencode($rc->getMessage()) . "'"); 
+                header("Location: index.php?action=" . urlencode($controller) . "&type=success&message='". urlencode($rc->getMessage()) . "'"); 
                 exit();
             }
 
@@ -38,7 +38,7 @@
         }
 
         else if ($rc instanceof error_code) {
-            header("Location: index.php?action=" . $controller . "&type=error&message='". urlencode($rc->getMessage()) . "'");
+            header("Location: index.php?action=" . urlencode($controller) . "&type=error&message='". urlencode($rc->getMessage()) . "'");
             exit();
         }
 
