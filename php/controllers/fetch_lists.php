@@ -11,7 +11,16 @@
         try {                
             $request = new mysqli_request();
             $lists = $request->fetch_lists($login);    
-            $rc = new success_code("Lists fetched successfully.", $lists);
+
+            $sanitized_lists = array();
+            foreach ($lists as $list) {
+                $sanitized_lists[] = array(
+                    'id' => $list['id'],
+                    'name' => htmlspecialchars($list['name'])
+                );
+            }
+
+            $rc = new success_code("Lists fetched successfully.", $sanitized_lists);
         }
     
         catch (Exception $e) {

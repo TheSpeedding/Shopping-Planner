@@ -1,20 +1,14 @@
 <?php
-    $_POST['controller'] = "fetch_lists";
+    $rc = NULL;
 
-    ob_start();
+    include_once(__DIR__ . '/../php/controllers/fetch_lists.php');
 
-    include_once(__DIR__ . '/../php/controllers/controller.php');
-
-    $response = json_decode(ob_get_contents());
-
-    ob_end_clean();
-
-    if (isset($response->error)) {
-        die ($response->error);
+    if (!($rc instanceof success_code)) {
+        die("Invalid return code.");
     }
 
-    foreach ($response->payload as $list) {
+    foreach ($rc->payload as $list) {
         ?>
-            <li><a data-id="<?php echo $list->id; ?>"><?php echo $list->name; ?></a></li>
+            <li><a data-id="<?php echo $list['id']; ?>"><?php echo $list['name']; ?></a></li>
         <?php
     }

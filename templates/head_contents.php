@@ -7,16 +7,14 @@
 <script src="js/utils.js" type="text/javascript"></script>
 
 <?php
-    $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
-    
     if (isset($_GET['action']) && isset($_GET['type']) && isset($_GET['message'])) {
         ?>
         <script type="text/javascript">                            
             document.addEventListener('DOMContentLoaded', function() {
-                showMessage(<?= "'" . $_GET['action'] . "_message'" ?>, 
-                            <?= $_GET['message']; ?>, 
-                            <?= "'" . $_GET['type'] . "'"; ?>,
-                            <?= isset($_GET['fade']); ?>);
+                showMessage(<?= json_encode($_GET['action'] . "_message"); ?>, 
+                            <?= json_encode($_GET['message']); ?>, 
+                            <?= json_encode($_GET['type']); ?>,
+                            <?= isset($_GET['fade']) ? "true" : "false"; ?>);
                 });
         </script>
         <?php

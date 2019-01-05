@@ -11,7 +11,7 @@
 
     else {
         $login = $_SESSION['login'];
-        $id = htmlspecialchars($_POST['id']);    
+        $id = $_POST['id'];    
         
         try {
             $request = new mysqli_request();

@@ -6,8 +6,8 @@
     }
 
     else {
-        $login = htmlspecialchars($_POST['login']);
-        $pw = htmlspecialchars($_POST['pw']);
+        $login = $_POST['login'];
+        $pw = $_POST['pw'];
         
         try {
             $request = new mysqli_request();
@@ -18,7 +18,12 @@
 
             setcookie("session", session_id());
     
-            $rc = new success_code("You was successfully logged-in.", array('login' => $login, 'pw' => $pw, 'session' => session_id()));
+            $rc = new success_code("You was successfully logged-in.", array(
+                'name' => htmlspecialchars($_SESSION['name']),
+                'login' => htmlspecialchars($_SESSION['login']), 
+                'pw' => htmlspecialchars($pw), 
+                'session' => session_id())
+            );
         } 
         catch (Exception $e) {
             $rc = new error_code(htmlspecialchars($e->getMessage()));

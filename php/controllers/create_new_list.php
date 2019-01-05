@@ -11,7 +11,7 @@
 
     else {
         $login = $_SESSION['login'];
-        $name = htmlspecialchars($_POST['name']);    
+        $name = $_POST['name'];    
         
         try {
             if (empty($name)) {
@@ -20,7 +20,7 @@
             
             $request = new mysqli_request();
             $result = $request->create_new_list($name, $login);
-            $rc = new success_code("New list created successfully.", array('name' => $name, 'login' => $login, 'id' => $result));
+            $rc = new success_code("New list created successfully.", array('name' => htmlspecialchars($name), 'login' => $login, 'id' => $result));
         }
         catch (Exception $e) {
             $rc = new error_code(htmlspecialchars($e->getMessage()));

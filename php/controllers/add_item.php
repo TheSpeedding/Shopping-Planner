@@ -11,9 +11,9 @@
 
     else {
         $login = $_SESSION['login'];
-        $list_id = htmlspecialchars($_COOKIE['last_visited_list']);   
-        $item = htmlspecialchars($_POST['item']);     
-        $amount = htmlspecialchars($_POST['amount']);      
+        $list_id = $_COOKIE['last_visited_list'];   
+        $item = $_POST['item'];     
+        $amount = $_POST['amount'];      
         
         try {
             if (empty($item) || empty($amount)) {
@@ -26,7 +26,7 @@
             
             $request = new mysqli_request();
             $result = $request->add_item($item, $amount, $list_id, $login);
-            $rc = new success_code("Item added successfully.", array('name' => $item, 'id' => $result, 'login' => $login));
+            $rc = new success_code("Item added successfully.", array('name' => htmlspecialchars($item), 'id' => $result, 'login' => htmlspecialchars($login)));
         }
         catch (Exception $e) {
             $rc = new error_code(htmlspecialchars($e->getMessage()));

@@ -18,13 +18,15 @@
         $rc = NULL;
 
         // Path traversal check.
-        $basepath = __DIR__;
-        $realBase = realpath($basepath);
+        $files = glob(__DIR__ . "/*.php");
+        $controllers = array();
 
-        $userpath = $basepath . '/' . $_POST['controller'] . '.php';
-        $realUserPath = realpath($userpath);
+        foreach($files as $file) {
+            $file = pathinfo($file);
+            $controllers[] = $file['filename'];
+        }
 
-        if ($realUserPath === false || strpos($realUserPath, $realBase) !== 0) {
+        if (!in_array($_POST['controller'], $controllers)) {
             die('Attempt to do a path traversal.');
         } 
         

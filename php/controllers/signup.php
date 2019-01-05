@@ -6,9 +6,9 @@
     }
 
     else {
-        $fullname = htmlspecialchars($_POST['fullname']);
-        $login = htmlspecialchars($_POST['login']);
-        $pw = htmlspecialchars(password_hash($_POST['pw'], PASSWORD_DEFAULT));
+        $fullname = $_POST['fullname'];
+        $login = $_POST['login'];
+        $pw = password_hash($_POST['pw'], PASSWORD_DEFAULT);
 
         try {
             if (empty($fullname) || empty($login) || empty($pw)) {
@@ -17,7 +17,13 @@
 
             $request = new mysqli_request();
             $result = $request->sign_up($fullname, $login, $pw);
-            $rc = new success_code("You was successfully signed-up.", array('fullname' => $fullname, 'login' => $login, 'pw' => $pw, 'id' => $result));
+            
+            $rc = new success_code("You was successfully signed-up.", array(
+                'fullname' => htmlspecialchars($fullname), 
+                'login' => htmlspecialchars($login), 
+                'pw' => htmlspecialchars($pw), 
+                'id' => $result)
+            );
         }
         catch (Exception $e) {
             $rc = new error_code(htmlspecialchars($e->getMessage()));

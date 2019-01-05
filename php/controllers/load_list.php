@@ -11,12 +11,27 @@
 
     else {
         $login = $_SESSION['login'];
-        $id = htmlspecialchars($_POST['id']);
+        $id = $_POST['id'];
 
         try {                
             $request = new mysqli_request();
-            $lists = $request->load_list($login, $id);             
-            $rc = new success_code("List loaded successfully.", $lists);
+            $list = $request->load_list($login, $id);  
+                        
+            $sanitized_items = array();
+            foreach ($list['items'] as $item) {
+                $sanitized_items[] = array(
+                    'id' => $item['id'],
+                    'item' => htmlspecialchars($item['item']),
+                    'amount' => $item['amount']
+                );
+            }
+
+            $rc = new success_code("List loaded successfully.", array(
+                'id' => $list['id'],
+                'name' => htmlspecialchars($list['name']), 
+                'created' => $list['created'], 
+                'items' => $sanitized_items
+            ));
         }
     
         catch (Exception $e) {

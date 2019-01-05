@@ -9,7 +9,7 @@
     </div> 
     <div id="info">
         Date: <?= date('d.m.Y H:i'); ?> <br>
-        User: <?= $logged ? $_SESSION['name'] : "Non-logged"; ?><br>
+        User: <?= $logged ? htmlspecialchars($_SESSION['name']) : "Non-logged"; ?><br>
         <?php
             if ($logged) {
                 ?>

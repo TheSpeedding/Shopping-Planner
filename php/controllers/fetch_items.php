@@ -4,7 +4,13 @@
     try {                
         $request = new mysqli_request();
         $items = $request->fetch_items();
-        $rc = new success_code("Items fetched successfully.", $items);
+
+        $sanitized_items = array();
+        foreach ($items as $item) {
+            $sanitized_items[] = htmlspecialchars($item);
+        }
+
+        $rc = new success_code("Items fetched successfully.", $sanitized_items);
     }
 
     catch (Exception $e) {

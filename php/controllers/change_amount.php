@@ -11,9 +11,9 @@
 
     else {
         $login = $_SESSION['login'];
-        $list_id = htmlspecialchars($_COOKIE['last_visited_list']);   
-        $id = htmlspecialchars($_POST['id']);  
-        $amount = htmlspecialchars($_POST['amount']);          
+        $list_id = $_COOKIE['last_visited_list'];   
+        $id = $_POST['id'];  
+        $amount = $_POST['amount'];          
 
         try {
             if (empty($amount)) {

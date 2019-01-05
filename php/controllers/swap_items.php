@@ -11,9 +11,9 @@
 
     else {
         $login = $_SESSION['login'];
-        $list_id = htmlspecialchars($_COOKIE['last_visited_list']);   
-        $id1 = htmlspecialchars($_POST['id1']);  
-        $id2 = htmlspecialchars($_POST['id2']);  
+        $list_id = $_COOKIE['last_visited_list'];   
+        $id1 = $_POST['id1'];  
+        $id2 = $_POST['id2'];
 
         try {
             $request = new mysqli_request();
